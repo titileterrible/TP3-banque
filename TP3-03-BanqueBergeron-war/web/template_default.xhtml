@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="default.css"/>  
+        <h:outputStylesheet library="css" name="cssLayout.css"/> 
+        
+        <ui:insert name="metadata"/>
+        
+        <title><ui:insert name="titrePage"/></title>
+    
+    </h:head>
+
+    <h:body>
+
+        <div id="top" class="top rounded shadowed">
+             <h1>Banque Bergeron - <ui:insert name="titrePage"/></h1>
+        </div>
+
+        <div>
+            <div id="left" class="rounded shadowed">
+                <ul>
+                    <li><h:link outcome="index.xhtml" value="Accueil"/></li>  
+                    <li><h:link outcome="comptes-List.xhtml" value="Comptes"/></li>  
+                    <li><h:link outcome="virements.xhtml" value="Virements"/></li>
+                    <li><h:link outcome="ouverture.xhtml" value="Ouvertures"/></li> 
+                </ul>
+            </div>
+
+            <div id="content" class="left_content rounded shadowed">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+    </h:body>
+
+</html>
