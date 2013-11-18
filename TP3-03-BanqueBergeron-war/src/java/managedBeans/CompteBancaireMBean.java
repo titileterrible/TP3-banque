@@ -26,6 +26,19 @@ public class CompteBancaireMBean implements Serializable {
     
     @EJB
     private CompteBancaireManager cptManager;
+    
+    // ----------------------
+    
+    // Création de la propriété pour conserver le compte
+    private CompteBancaire compte;
+    
+    // Selection de ligne pour afficher 
+    // Les détails d'un copte
+    public String showDetails(int cptId) {
+        return "CompteDetails?cptId=" + cptId;    
+    }
+    
+    // -----------------------
 
     
     /**
@@ -45,9 +58,7 @@ public class CompteBancaireMBean implements Serializable {
         return cptManager.getAllComptes();
     }
     
-    public String showDetails(int cptId) {
-        return "CompteDetails?cptId=" + cptId;    
-    }
+
     
     
     

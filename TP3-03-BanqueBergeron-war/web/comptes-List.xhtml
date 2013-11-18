@@ -20,7 +20,14 @@
 
                             <p:column>
                                 <f:facet name="header">
+                                   <!--
+                                   return "CompteDetails?cptId=" + cptId; 
+                                   -->
+                                    <h:link outcome="#{compteBancaireMBean.showDetails(item.Id)}" value="#{item.Id}"/> 
+                                    
+                                    <!--
                                     <h:outputText value="Id"/>
+                                    -->
                                 </f:facet>
                                 <h:outputText value="#{item.id}"/>
                             </p:column>
