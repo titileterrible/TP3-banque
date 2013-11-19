@@ -33,9 +33,9 @@ public class CompteBancaireMBean implements Serializable {
     private CompteBancaire compte;
     
     // Selection de ligne pour afficher 
-    // Les détails d'un copte
-    public String showDetails(int cptId) {
-        return "CompteDetails?cptId=" + cptId;    
+    // Les détails d'un compte
+    public String showDetails(long id) {
+        return "compteDetails?id=" + id;    
     }
     
     // -----------------------

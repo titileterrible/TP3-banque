@@ -21,41 +21,55 @@ import sessionBeans.CompteBancaireManager;
 @ViewScoped
 public class CompteDetailsMBean {
 
-    private long idCpt;
-    private CompteBancaire cpt;
+    private long id;
+    private CompteBancaire compte;
     @EJB
-    CompteBancaireManager cptManager;
+    CompteBancaireManager compteManager;
 
-   public void loadCompte () {
-       this.cpt = cptManager.getCompte(idCpt);
+   
+    
+    
+    
+    
+    public void loadCompte () {
+       
+        System.out.println("compteDetailsMBean.loadCompte()");
+        this.compte = compteManager.getCompte(id);
+       
    }
+
     
     
     
     
-    public long getIdCpt() {
-        return idCpt;
+    
+    public long getId() {
+        return id;
     }
 
-    public void setIdCpt(long idCpt) {
-        this.idCpt = idCpt;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public CompteBancaire getCpt() {
-        return cpt;
+    public CompteBancaire getCompte() {
+        return compte;
     }
 
-    public void setCpt(CompteBancaire cpt) {
-        this.cpt = cpt;
+    public void setCompte(CompteBancaire compte) {
+        this.compte = compte;
     }
 
-    public CompteBancaireManager getCptManager() {
-        return cptManager;
+    public CompteBancaireManager getCompteManager() {
+        return compteManager;
     }
 
-    public void setCptManager(CompteBancaireManager cptManager) {
-        this.cptManager = cptManager;
+    public void setCompteManager(CompteBancaireManager compteManager) {
+        this.compteManager = compteManager;
     }
+    
+    
+    
+
     
     
     

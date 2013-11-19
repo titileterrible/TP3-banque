@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+       
+    <f:metadata>
+        <f:viewParam name="Id" value="#{compteDetailsMBean.id}" required="true"/>
+        <f:viewAction action="#{compteDetailsMBean.loadCompte()}"/>
+    </f:metadata>
+    
+    
+    
+      <ui:composition template="./template_default.xhtml">
+
+          
+           <ui:define name="titrePage">Compte n°<h:outputText value="#{compteDetailsMBean.compte.id}"></h:outputText></ui:define>
+
+            <ui:define name="content">
+                 
+            
+              <f:view>
+                    <h:form>
+                        <h1><h:outputText value="GEstion du compte n°#{compteDetailsMBean.compte.id}"/></h1>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Nom:" for="nom" />
+                            <p:inputText id="nom" value="#{compteDetailsMBean.compte.nom}" title="Nom" />
+                            <h:outputLabel value="Solde:" for="solde" />
+                            <p:inputText id="solde" value="#{compteDetailsMBean.compte.solde}" title="Solde" />
+                            
+                            <!--
+                            <h:outputLabel value="Id:" for="id" />
+                            <h:inputText id="id" value="#{compteDetailsMBean.compte.id}" title="Id" />
+                            -->
+                        </h:panelGrid>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+
+
+</html>
+
