@@ -26,20 +26,51 @@ public class CompteDetailsMBean {
     @EJB
     CompteBancaireManager compteManager;
 
-   
-    
-    
-    
-    
+    /*
     public void loadCompte () {
        
         System.out.println("compteDetailsMBean.loadCompte()");
         this.compte = compteManager.getCompte(id);
        
    }
+    /**/
 
+    // ---------- Adapté du TP1 -------
+    
+    // Renvoie les détails du compte courant (celui dans l'attribut compte de 
+    // cette classe), qu'on appelle une propriété (property) 
+     public CompteBancaire getDetails() {  
+       return compte;  
+     } 
     
     
+    
+    /*
+    
+      
+    // Renvoie les détails du client courant (celui dans l'attribut customer de 
+    // cette classe), qu'on appelle une propriété (property) 
+     public Customer getDetails() {  
+       return customer;  
+     }  
+  
+    // Action handler - met à jour la base de données en fonction du client passé 
+    // en paramètres, et renvoie vers la page qui affiche la liste des clients.   
+    public String update() {  
+      System.out.println("###UPDATE###");  
+      customer = customerManager.updateCustomer(customer);  
+      return "CustomerList";  
+    }  
+  
+  
+    // Action handler - renvoie vers la page qui affiche la liste des clients   
+    public String list() {  
+      System.out.println("###LIST###");  
+      return "CustomerList";  
+    }   
+    
+   // ------------------------------------- 
+   /**/ 
     
     
     
@@ -66,6 +97,7 @@ public class CompteDetailsMBean {
     public void setCompteManager(CompteBancaireManager compteManager) {
         this.compteManager = compteManager;
     }
+    /**/
     
     
     

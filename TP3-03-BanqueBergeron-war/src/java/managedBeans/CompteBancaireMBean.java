@@ -22,6 +22,9 @@ import sessionBeans.CompteBancaireManager;
 @ViewScoped
 public class CompteBancaireMBean implements Serializable {
     
+    
+    // Variable d'instance pour conserver la liste des comptes
+    // pour les colonnes de tableau triables avec PrimeFaces
     private List<CompteBancaire> compteBancaireList;
     
     @EJB
@@ -32,28 +35,51 @@ public class CompteBancaireMBean implements Serializable {
     // Création de la propriété pour conserver le compte
     private CompteBancaire compte;
     
-    // Selection de ligne pour afficher 
-    // Les détails d'un compte
+    // Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans 
+    // la DataTable pour voir les détails
+    // Note : Doit retourner le nom exact de la page xhtml apellée
+   
+   /*
     public String showDetails(long id) {
-        return "compteDetails?id=" + id;    
+        return "compteDetails?faces-redirect=true;includeViewParams=true;id=" + id;    
     }
+    /**/
     
-    // -----------------------
+    
+   
+    public CompteBancaire getDetails() {  
+        // System.out.println(compte.toString());
+        return compte;  
+    } 
+    
+       
+    public String showDetails(CompteBancaire compte) {  
+        this.compte = compte;  
+        return "compteDetails2?faces-redirect=true";  
+    } 
 
     
-    /**
-     * Creates a new instance of CompteBancaireMBean
-     */
+  
+ 
+  
+    
+   
+   
+   
+   // -----------------------
+
+    
+    // Création d'une instance du managed bean
     public CompteBancaireMBean() {
     }
     
     
-    
+    // Renvoie la liste des comptes pour affichage dans une datatable
     public List<CompteBancaire> getAllCpts() {
         return cptManager.getAllComptes();
     }
     
-    
+    // Idem, mais avec des paramètres de pagination
     public List<CompteBancaire> getCptsByRange(int offset, int qte) {
         return cptManager.getAllComptes();
     }

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">    
+    
+      <ui:composition template="./template_default.xhtml">
+
+          <ui:define name="titrePage">Compte n°<h:outputText value="#{compteBancaireMBean.details.toString}"></h:outputText></ui:define>
+
+            <ui:define name="content">
+                 
+            
+              
+                <f:view>
+                    <h:form>
+                        <h1><h:outputText value="#{compteBancaireMBean.details.toString}"/></h1>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Solde:" for="solde" />
+                            <h:inputText id="solde" value="#{compteBancaireMBean.details.solde}" title="Solde" />
+                            <h:outputLabel value="Nom:" for="nom" />
+                            <h:inputText id="nom" value="#{compteBancaireMBean.details.nom}" title="Nom" />
+                            <h:outputLabel value="Id:" for="id" />
+                            <h:inputText id="id" value="#{compteBancaireMBean.details.id}" title="Id" />
+                        </h:panelGrid>
+                    </h:form>
+                </f:view>
+
+
+                
+                
+                
+                
+
+            </ui:define>
+
+        </ui:composition>
+
+
+
+</html>
+
