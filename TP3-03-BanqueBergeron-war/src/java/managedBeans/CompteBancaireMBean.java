@@ -22,7 +22,7 @@ import sessionBeans.CompteBancaireManager;
 @ViewScoped
 public class CompteBancaireMBean implements Serializable {
     
-    
+    // toto et tata sont dans un bateau..
     // Variable d'instance pour conserver la liste des comptes
     // pour les colonnes de tableau triables avec PrimeFaces
     private List<CompteBancaire> compteBancaireList;
@@ -34,16 +34,38 @@ public class CompteBancaireMBean implements Serializable {
     
     // Création de la propriété pour conserver le compte
     private CompteBancaire compte;
-    
+
     // Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans 
     // la DataTable pour voir les détails
     // Note : Doit retourner le nom exact de la page xhtml apellée
-   
-   /*
+    /*
     public String showDetails(long id) {
-        return "compteDetails?faces-redirect=true;includeViewParams=true;id=" + id;    
+    return "compteDetails?faces-redirect=true;includeViewParams=true;id=" + id;    
     }
     /**/
+    public List<CompteBancaire> getCompteBancaireList() {
+        return compteBancaireList;
+    }
+
+    public void setCompteBancaireList(List<CompteBancaire> compteBancaireList) {
+        this.compteBancaireList = compteBancaireList;
+    }
+
+    public CompteBancaireManager getCptManager() {
+        return cptManager;
+    }
+
+    public void setCptManager(CompteBancaireManager cptManager) {
+        this.cptManager = cptManager;
+    }
+
+    public CompteBancaire getCompte() {
+        return compte;
+    }
+
+    public void setCompte(CompteBancaire compte) {
+        this.compte = compte;
+    }
     
     
    
