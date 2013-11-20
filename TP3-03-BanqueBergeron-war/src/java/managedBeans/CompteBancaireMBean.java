@@ -69,7 +69,7 @@ public class CompteBancaireMBean implements Serializable {
     
     
     
-    //------------ Thierry -- pour les opérations -------
+    //------------ Thierry ---------
     
     public Collection<OperationBancaire> getOperations() {
         System.out.println("compteBancaireMBean.getOperations()");
@@ -79,6 +79,15 @@ public class CompteBancaireMBean implements Serializable {
     
     
     
+    
+    
+    public String delete() {  
+        System.out.println("compteBancaireMBean.delete()");  
+        cptManager.deleteCompte(compteBancaire);
+        // MAJ
+        //this.refresh();
+        return "index?faces-redirect=true";  
+    }
    
     
     
