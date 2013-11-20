@@ -7,10 +7,19 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:="http://www.w3.org/1999/xhtml">
 
-    <ui:define name="titrePage">Details Compte - <h:outputText value="#{compteBancaireMBean.details.nom}"></h:outputText></ui:define>
+    <ui:define name="titrePage">Details Compte</ui:define>
 
     <ui:define name="content">
         <f:view>
+            
+            
+
+            
+            
+            
+            
+            
+            
             <h:form>
                 
                 <p:panel>
@@ -21,31 +30,22 @@
                     &nbsp;
                     <p:inputText id="nom" value="#{compteBancaireMBean.details.nom}" title="Nom" />
                     &nbsp;
-                    <p:commandButton icon="ui-icon-pencil" id="update" value="Modifier Compte" action="#{compteBancaireMBean.update}"/>  
+                    <p:commandButton icon="ui-icon-pencil" id="update" value="Enregistrer Modification" action="#{compteBancaireMBean.updateCompte()}" onclick="PF('bar').show()"/>  
                     &nbsp;
-                    <p:commandButton icon="ui-icon-close" id="delete" value="Supprimer Compte" onclick="confirmation.show()"/>    
+                    <p:commandButton icon="ui-icon-close" id="delete" value="Supprimer Compte" onclick="confirmation.show()"/> 
                     &nbsp;
-                    <p:commandButton icon="ui-icon-minus" id="retrait" action="#{compteBancaireMBean.setCompteBancaire(details)}" value="Enregistrer un retrait" onclick="(retrait).show()"/>
+                    <p:commandButton icon="ui-icon-minus" id="retrait" action="#{compteBancaireMBean.retrait1()}" value="Enregistrer un retrait" onclick="retrait.show()"/>
                     &nbsp;
-                    <p:commandButton icon="ui-icon-plus" id="depot" action="#{compteBancaireMBean.setCompteBancaire(details)}" value="Enregistrer un dépôt" onclick="depot.show()"/>
-                    &nbsp;
+                    <p:commandButton icon="ui-icon-plus" id="depot" action="#{compteBancaireMBean.depot1()}" value="Enregistrer un dépôt" onclick="depot.show()"/>
                     
-                
-                    <p:dialog header="Enregistrer un retrait" widgetVar="retrait" modal="true" height="40" resizable="false">
-                              <h:outputText style="margin-right: 5px;" value="Montant :" />
-                              <h:inputText  required="true" value="" title="Montant" />
-                              <f:facet name="footer">  
-                                   <p:commandButton icon="ui-icon-check" value="Valider" update="listOperations" action="#{compteBancaireMBean.retrait1()}"/>  
-                              </f:facet>  
-                   </p:dialog>
-                
-                   <p:dialog header="Enregistrer un dépôt" widgetVar="depot" modal="true" height="40" resizable="false">
-                                    <h:outputText style="margin-right: 5px;" value="Montant :" />
-                                    <h:inputText required="true" value="" title="Montant" />
-                                    <f:facet name="footer">  
-                                        <p:commandButton icon="ui-icon-check" value="Valider" update="listOperations" action="#{compteBancaireMBean.depot1()}"/>  
-                                    </f:facet>             
-                   </p:dialog>
+               
+                    <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">
+                        <h1><h:outputText value="Modification du compte n°#{compteBancaireMBean.details.id} enregistrée !" /></h1>
+                        <br/>
+                        <p:commandButton value="Effacer la notification" onclick="PF('bar').hide()" type="button" />
+                    </p:notificationBar>
+
+                         
 
                 </p:panel>
                 
@@ -56,14 +56,10 @@
                 <p:panel>
                     <h1 style="padding-bottom:5px; margin-bottom:10px;">
                         <h:outputText value="Liste des opérations du Compte N°#{compteBancaireMBean.details.id} - ( #{compteBancaireMBean.details.nom} )"/>
+
+                    
                     </h1>
   
-                <!--
-                <h1><h:outputText value="Détails des opérations pour le compte numéro #{compteBancaireMBean.details.id} de #{compteMBean.details.nom}"/></h1><br/>
-                        <h:commandLink id="printId" value="Imprimer le tableau" style="float: right;"  styleClass="printButton">
-                            <p:printer target="listOperations" />
-                        </h:commandLink>
-                -->
                         <p:dataTable value="#{compteBancaireMBean.operations}" id="listOperations" var="item">
                             <p:column sortBy="#{item.dateOp}">
                                 <f:facet name="header">
@@ -86,7 +82,7 @@
                         </p:dataTable>
                         <br/>
                 
-                
+                        
                 
                 
                 </p:panel>
@@ -102,10 +98,13 @@
 
                 <p:confirmDialog id="confirmDialog" message="Etes-vous sur?"  header="Suppression compte" severity="alert" widgetVar="confirmation">  
 
-                    <p:commandButton id="confirm" value="Supprimer" action="#{compteBancaireMBean.delete}" />  
+                    <p:commandButton id="confirm" value="Supprimer" action="#{compteBancaireMBean.deleteCompte()}" />  
                     <p:commandButton id="decline" value="Annuler" onclick="confirmation.hide()" type="button" />   
 
                 </p:confirmDialog> 
+                
+                
+                
 
             </h:form>
 
