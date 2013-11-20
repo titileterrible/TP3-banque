@@ -33,7 +33,7 @@
                 
                     <p:dialog header="Enregistrer un retrait" widgetVar="retrait" modal="true" height="40" resizable="false">
                               <h:outputText style="margin-right: 5px;" value="Montant :" />
-                              <h:inputText  required="true" value="#{compteBancaireMBean.solde1}" title="Montant" />
+                              <h:inputText  required="true" value="" title="Montant" />
                               <f:facet name="footer">  
                                    <p:commandButton icon="ui-icon-check" value="Valider" update="listOperations" action="#{compteBancaireMBean.retrait1()}"/>  
                               </f:facet>  
@@ -41,7 +41,7 @@
                 
                    <p:dialog header="Enregistrer un dépôt" widgetVar="depot" modal="true" height="40" resizable="false">
                                     <h:outputText style="margin-right: 5px;" value="Montant :" />
-                                    <h:inputText required="true" value="#{compteBancaireMBean.solde2}" title="Montant" />
+                                    <h:inputText required="true" value="" title="Montant" />
                                     <f:facet name="footer">  
                                         <p:commandButton icon="ui-icon-check" value="Valider" update="listOperations" action="#{compteBancaireMBean.depot1()}"/>  
                                     </f:facet>             
