@@ -119,6 +119,32 @@ public class CompteBancaireManager {
         em.merge(cpt1);
     }
     
- 
+    // Liste de compte avec option refresh ------------------------------------
+    
+    public List<CompteBancaire> getAllCompteBancaires(boolean forceRefresh) {
+        Query query = em.createNamedQuery("Cpt.findAll");
+        // Cette liste provient du cache de niveau 2 et 1
+        // Si les données changent en insert/delete, la liste est à jour
+        // Mais pas forcément les updates
+        List<CompteBancaire> liste = query.getResultList();
+
+        // Force le refresh des valeurs
+        if (forceRefresh) {
+            for (CompteBancaire compteBancaire : liste) {
+                // em.refresh force le rafraichissement des
+                // attributs de l'objet en mémoire en fonction
+                // des dernières valeurs pour cet objet, dans la base
+                // (au plus près du dernier commit)
+                em.refresh(compteBancaire);
+            }
+        }
+
+        return liste;
+    }
+
+    public CompteBancaire getCompteBancaireById(int id) {
+        System.out.println("#### JE VAIS CHERCHER LE COMPTE DANS LA BASE ###");
+        return em.find(CompteBancaire.class, id);
+    }
 
 }
