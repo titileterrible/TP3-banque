@@ -33,7 +33,7 @@ public class OperationBancaire implements Serializable {
     // Constructeurs --------------------------------
     public OperationBancaire() { }
 
-    public OperationBancaire(String commentOp, float montantOp) {
+    public OperationBancaire(String commentOp, double montantOp) {
         this.dateOp = new Date();
         this.commentOp = commentOp;
         this.montantOp = montantOp;
@@ -109,16 +109,10 @@ public class OperationBancaire implements Serializable {
      *
      * @param montantOp new value of montantOp
      */
-    public void setMontantOp(float montantOp) {
+    public void setMontantOp(double montantOp) {
         this.montantOp = montantOp;
     }
 
-
-
-
-
-    
-    
     
     
     public Long getId() {

@@ -6,13 +6,18 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
-        <ui:composition template="./template_default.xhtml">     
+        <ui:composition template="./template_default.xhtml">
+
+          
            <ui:define name="titrePage">Comptes clients</ui:define>
-            <ui:define name="content">   
+
+            <ui:define name="content">
+                 
                 <f:view>
                     <h:form>
-                        <h1><h:outputText value="Liste des comptes"/></h1>                     
-                        <p:dataTable value="#{compteBancaireMBean.compteBancaires}" var="item" paginator="true"  rows="10" >
+                        <h1><h:outputText value="Liste des comptes"/></h1>
+                        <p:dataTable value="#{compteBancaireMBean.allCpts}" var="item" paginator="true"  rows="10" >
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Id"/>
@@ -32,20 +37,27 @@
                                     <h:outputText value="Solde"/>
                                 </f:facet>
                                 <h:outputText value="#{item.solde} €"/>
-                            </p:column>                        
-                            
+                            </p:column>
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Action"/>
-                                </f:facet> 
-                                <p:commandButton action="#{compteBancaireMBean.showDetails(item)}" value="Accéder au compte" icon="ui-icon-search"/>     
+                                </f:facet>
+                                    
+                                <p:commandButton action="#{compteBancaireMBean.showDetails(item)}" value="Accéder au compte" icon="ui-icon-search"/>
+                                    
+                                    
+                                    
+                                    
                             </p:column>
 
                         </p:dataTable>
                     </h:form>
-                </f:view>                
+                </f:view>
+                 
             </ui:define>
+
         </ui:composition>
-  
+
 </html>
 

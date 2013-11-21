@@ -24,6 +24,9 @@ import javax.persistence.OneToMany;
 @NamedQueries({
     @NamedQuery(
         name = "Cpt.findAll", query = "SELECT cpt FROM CompteBancaire cpt ORDER BY cpt.id"),
+     @NamedQuery(
+        name = "Cpt.delete", query = "delete from CompteBancaire cpt where cpt.id = :cptId")
+        
 })
 @Entity
 public class CompteBancaire implements Serializable {
@@ -35,7 +38,7 @@ public class CompteBancaire implements Serializable {
     private double solde;
     
     @OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
-    private List<OperationBancaire> operations = new ArrayList<OperationBancaire>();
+    private List<OperationBancaire> operations = new ArrayList<>();
     /**/
     
     
@@ -52,24 +55,18 @@ public class CompteBancaire implements Serializable {
     
     // Méthodes ------------------------------------
     public void deposer(double montant) {
-      solde += montant;
+      this.solde += montant;
     }
 
     public double retirer(double montant) {
-      if (montant > solde) {
-        solde -= montant;
-        return montant;
-      } else {
-        return 0;
-      }
+      //if (montant > solde) {
+        this.solde -= montant;
+        return solde;
+//      } else {
+//        return 0;
+//      }
     }
-    
-    
-    
-    
-    
-    
-    
+
     
     // Getters and setters -----------------------
     

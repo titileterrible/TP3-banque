@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="./template_default.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="titrePage">Details Compte - <h:outputText value="#{compteBancaireMBean.details.nom}"></h:outputText></ui:define>
+
+    <ui:define name="content">
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="Liste des opérations"/> <small>Solde: <h:outputText value="#{compteBancaireMBean.details.solde}"/> €</small></h1>
+
+
+                
+                
+            <div>
+                <p:dataTable value="#{compteBancaireMBean.details.operations}" var="item">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Date"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateOp}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opération"/>
+                        </f:facet>
+                        <h:outputText value="#{item.commentOp}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Montant"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montantOp}"/>
+                    </p:column>
+                </p:dataTable>
+                    <div style="margin: 10px 0;">
+                        <p:commandButton icon="ui-icon-suitcase" id="operation" value="Nouvelle Operation" onclick="operation.show()"/>  
+                    </div>
+                
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+
+                <p:panel header="Informations du compte">
+                    <h:panelGrid columns="2" cellpadding="5"> 
+                        <h:outputLabel value="Nom:" for="nom" />
+                        <p:inputText id="nom" value="#{compteBancaireMBean.details.nom}" title="Nom" />
+                    </h:panelGrid>
+                    <div>
+                        <p:commandButton icon="ui-icon-pencil" id="update" value="Mettre à jour" action="#{compteBancaireMBean.update}"/>  
+                        <p:commandButton icon="ui-icon-close" id="delete" value="Supprimer le compte" onclick="confirmation.show()"/>  
+                    </div>
+                </p:panel>
+                <div style="margin-top: 10px;">
+                    <p:commandButton icon="ui-icon-arrowthick-1-w" id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
+                </div>
+
+                <p:confirmDialog id="confirmDialog" message="Etes-vous sur?"  
+                                 header="Suppression compte" severity="alert" widgetVar="confirmation">  
+
+                    <p:commandButton id="confirm" value="Supprimer" action="#{compteBancaireMBean.delete}" />  
+                    <p:commandButton id="decline" value="Annuler" onclick="confirmation.hide()" type="button" />   
+
+                </p:confirmDialog> 
+
+            </h:form>
+
+            
+            
+                <p:dialog id="modalDialog" header="Nouvelle Operation" widgetVar="operation" modal="true" height="100">  
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Type:" for="typeOperation" />
+                        <p:selectOneMenu id="typeOperation" value="#{compteBancaireMBean.typeOperation}">  
+                            <f:selectItem itemLabel="Débit" itemValue="retrait" />  
+                            <f:selectItem itemLabel="Crédit" itemValue="depot" />  
+                        </p:selectOneMenu>  
+                        <h:outputLabel value="Montant:" for="montant" />
+                        <p:inputText id="montant" value="#{compteBancaireMBean.montantOp}" title="Montant" />
+                    </h:panelGrid>
+
+                    <p:commandButton id="confirmOperation" value="Confirmer" action="#{compteBancaireMBean.operation()}" />  
+                    <p:commandButton id="declineOperation" value="Annuler" onclick="operation.hide()" type="button" />  
+                </h:form>
+            </p:dialog>        
+            
+            
+            
+            
+            
+
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>
+
+

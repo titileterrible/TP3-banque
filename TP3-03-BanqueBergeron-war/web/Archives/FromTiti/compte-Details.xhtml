@@ -7,7 +7,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:="http://www.w3.org/1999/xhtml">
 
-    <ui:define name="titrePage">Details Compte - <h:outputText value="#{compteBancaireMBean.details.nom}"></h:outputText></ui:define>
+    <ui:define name="titrePage">Details Compte</ui:define>
 
     <ui:define name="content">
         <f:view>
@@ -15,14 +15,12 @@
             
 
             
-    
             
             
             
             
-            <!-- dsdsdsdsdsdsdsdsdsdsds -->
             
-  <h:form>
+            <h:form>
                 
                 <p:panel>
                     <h1 style="padding-bottom:5px; margin-bottom:10px;">
@@ -32,11 +30,11 @@
                     &nbsp;
                     <p:inputText id="nom" value="#{compteBancaireMBean.details.nom}" title="Nom" />
                     &nbsp;
-                    <p:commandButton icon="ui-icon-pencil" id="update" value="Enregistrer Modification" action="#{compteBancaireMBean.update}" onclick="PF('bar').show()"/>  
+                    <p:commandButton icon="ui-icon-pencil" id="update" value="Enregistrer Modification" action="#{compteBancaireMBean.updateCompte()}" onclick="PF('bar').show()"/>  
                     &nbsp;
                     <p:commandButton icon="ui-icon-close" id="delete" value="Supprimer Compte" onclick="confirmation.show()"/> 
                     &nbsp;
-                    <p:commandButton icon="ui-icon-suitcase" id="operation" value="Nouvelle oprération" onclick="operation.show()"/>
+                    <p:commandButton icon="ui-icon-suitcase" id="operation" value="Nouvelle oprération" onclick="operation.shox()"/>
                     
                
                     <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">
@@ -60,7 +58,7 @@
                     
                     </h1>
   
-                        <p:dataTable value="#{compteBancaireMBean.details.operations}" id="listOperations" var="item">
+                        <p:dataTable value="#{compteBancaireMBean.operations}" id="listOperations" var="item">
                             <p:column sortBy="#{item.dateOp}">
                                 <f:facet name="header">
                                     <h:outputText value="Date"/>
@@ -96,81 +94,22 @@
                     <p:commandButton icon="ui-icon-arrowthick-1-w" id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
                 </div>
 
-
-                
-                
-                
-                
-                
-                
-                
                 <p:confirmDialog id="confirmDialog" message="Etes-vous sur?"  header="Suppression compte" severity="alert" widgetVar="confirmation">  
 
-                    <p:commandButton id="confirm" value="Supprimer" action="#{compteBancaireMBean.delete}" />  
+                    <p:commandButton id="confirm" value="Supprimer" action="#{compteBancaireMBean.deleteCompte()}" />  
                     <p:commandButton id="decline" value="Annuler" onclick="confirmation.hide()" type="button" />   
 
                 </p:confirmDialog> 
                 
-                
-                
-                
-                
-                
 
-            </h:form> 
+            </h:form>
 
-        
-        
-            <p:dialog id="modalDialog" header="Nouvelle Operation" widgetVar="operation" modal="true" height="100">  
-                <h:form>
-                    <h:panelGrid columns="2">
-                        <h:outputLabel value="Type:" for="typeOperation" />
-                        <p:selectOneMenu id="typeOperation" value="#{compteBancaireMBean.typeOperation}">  
-                            <f:selectItem itemLabel="Débit" itemValue="retrait" />  
-                            <f:selectItem itemLabel="Crédit" itemValue="depot" />  
-                        </p:selectOneMenu>  
-                        <h:outputLabel value="Montant:" for="montant" />
-                        <p:inputText id="montant" value="#{compteBancaireMBean.montantOp}" title="Montant" />
-                    </h:panelGrid>
 
-                    <p:commandButton id="confirmOperation" value="Confirmer" action="#{compteBancaireMBean.operation()}" />  
-                    <p:commandButton id="declineOperation" value="Annuler" onclick="operation.hide()" type="button" />  
-                </h:form>
-            </p:dialog>    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         </f:view>
 
     </ui:define>
 
 </ui:composition>
+
 
 
