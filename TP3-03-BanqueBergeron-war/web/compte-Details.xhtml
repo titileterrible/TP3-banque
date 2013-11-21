@@ -34,9 +34,7 @@
                     &nbsp;
                     <p:commandButton icon="ui-icon-close" id="delete" value="Supprimer Compte" onclick="confirmation.show()"/> 
                     &nbsp;
-                    <p:commandButton icon="ui-icon-minus" id="retrait" action="#{compteBancaireMBean.retrait1()}" value="Enregistrer un retrait" onclick="retrait.show()"/>
-                    &nbsp;
-                    <p:commandButton icon="ui-icon-plus" id="depot" action="#{compteBancaireMBean.depot1()}" value="Enregistrer un dépôt" onclick="depot.show()"/>
+                    <p:commandButton icon="ui-icon-suitcase" id="operation" value="Nouvelle oprération" onclick="operation.shox()"/>
                     
                
                     <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">
@@ -102,8 +100,6 @@
                     <p:commandButton id="decline" value="Annuler" onclick="confirmation.hide()" type="button" />   
 
                 </p:confirmDialog> 
-                
-                
                 
 
             </h:form>

@@ -90,7 +90,24 @@ public class CompteBancaireMBean implements Serializable {
     }  
     
     
-    // Methode vide... provisoire 
+   
+   // Methode vide... provisoire 
+   public void retrait0(){
+       System.out.println("compteBancaireMBean.retrait0()");
+       //
+   } 
+    
+   // Methode vide... provisoire 
+   public void depot0(){
+       System.out.println("compteBancaireMBean.depot0()");
+       //
+   }   
+    
+    
+    
+    
+    
+   // Methode vide... provisoire 
    public void retrait1(){
        System.out.println("compteBancaireMBean.retrait1()");
        //
@@ -221,7 +238,7 @@ public class CompteBancaireMBean implements Serializable {
         return "compte-Details?faces-redirect=true";
     }
 
-    /* 
+    
     // Action handler - met à jour la base de données en fonction du compte
     // passé en paramètres
     // @return
@@ -230,7 +247,7 @@ public class CompteBancaireMBean implements Serializable {
         compteBancaire = cptManager.update(compteBancaire);
         return "comptes-List?faces-redirect=true";
     }
-    /**/
+    
    
 
      // Action handler - renvoie vers la page qui affiche la liste des comptes
@@ -248,6 +265,7 @@ public class CompteBancaireMBean implements Serializable {
         custList = cptManager.getAllCompteBancaires(true);
 
     }
+    
 
     public void lireCptParId() {
         System.out.println("compteBancaireMBean.lireCptParId()");
