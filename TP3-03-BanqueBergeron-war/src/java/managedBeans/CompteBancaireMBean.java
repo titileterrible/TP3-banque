@@ -7,6 +7,7 @@ package managedBeans;
 import entite.CompteBancaire;
 import entite.OperationBancaire;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
@@ -43,15 +44,15 @@ public class CompteBancaireMBean implements Serializable {
     private String typeOperation;
     private int montantOp;
     private String commentOp;
-    private CompteBancaire compteBancaireFrom;
-    private CompteBancaire compteBancaireTo;
+    private CompteBancaire cptDebiteur;
+    private CompteBancaire cptCrediteur;
     private int montantTransfert;
 
     /**
-     * Creates a new instance of CompteBancaireMBean
+     * Crée une instance de CompteBancaireMBean
      */
     public CompteBancaireMBean() {
-        System.out.println("BEAN CONSTRUIT !");
+        System.out.println("CompteBancaireMBean() BEAN CONSTRUIT !");
     }
 
 //    public List<CompteBancaire> getAllCpts() {
@@ -62,12 +63,214 @@ public class CompteBancaireMBean implements Serializable {
         return cptManager.getAllComptes();
     }
 
+
+
+    /**
+     * Renvoie la liste des comptes pour affichage dans une DataTable
+     * @return
+     */
+    public Collection<CompteBancaire> getCompteBancaires() {
+        System.out.println("CompteBancaireMBean.getCompteBancaires()");
+        if (custList == null) {
+            refreshListOfCptsFromDatabase();
+        }
+        return custList;
+    }
+
+    /**
+     * Renvoie les détails du compte courant (celui dans l'attribut
+     * compteBancaire de cette classe), qu'on appelle une propriété (property)
+     * @return
+     */
+    public CompteBancaire getDetails() {
+        return compteBancaire;
+    }
+
+    /**
+     * Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans
+     * la DataTable pour voir les détails
+     * @param compteBancaire
+     * @return
+     */
+    public String showDetails(CompteBancaire compteBancaire) {
+        this.compteBancaire = compteBancaire;
+        return "compte-Details?faces-redirect=true";
+    }
+
+    /**
+
+    /**
+     * Action handler - renvoie vers la page qui affiche la liste des comptes
+     * @return
+     */
+    public String list() {
+        System.out.println("CompteBancaireMBean.list()");
+        return "comptes-List?faces-redirect=true";
+    }
+    
+
+    public void refreshListOfCptsFromDatabase() {
+        System.out.println("CompteBancaireMBean.refreshListOfCptsFromDatabase()");
+        // true force le refresh depuis la base
+        custList = cptManager.getAllCompteBancaires(true);
+
+    }
+
+    public void lireCptParId() {
+        System.out.println("CompteBancaireMBean.lireCptParId()");
+        compteBancaire = cptManager.getCompteBancaireById(id);
+    }
+
+    /**
+     * Action handler - Créer un nouveau compte
+     * @return String redirect vers la page list
+     */
+    public String createCpt() {
+        System.out.println("CompteBancaireMBean.createCpt()");
+        
+        // Creation du nouveau compte
+        CompteBancaire newCpt = new CompteBancaire(this.nom, this.solde);
+        cptManager.creerCompte(newCpt);
+        // Rafraichir la liste des comptes pour inclure le nouveau compte
+        this.refreshListOfCptsFromDatabase();
+
+        // Vider les variables this;
+        this.nom = "";
+        this.solde = 0;
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Compte créé avec succès"));
+        return "comptes-List?faces-redirect=true";
+    }
+
+    /**
+     * Action handler - Créer une opération
+     * @return String redirect vers la page details
+     */
+    public String operation() {
+        System.out.println("CompteBancaireMBean.operation()");
+        
+        // Creation d'une opération
+        if (typeOperation.equals("retrait")) {
+            cptManager.retrait(compteBancaire, montantOp);
+        } else if (typeOperation.equals("depot")) {
+            cptManager.depot(compteBancaire, montantOp);
+        }
+
+        compteBancaire = cptManager.update(compteBancaire);
+        refreshListOfCptsFromDatabase();
+
+        // Reinitialiser les variables this
+        this.montantOp = 0;
+        this.typeOperation = "";
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "" + typeOperation + " Réussi"));
+        return "compte-Details?faces-redirect=true";
+    }
+
+    public String transfert() {
+        System.out.println("CompteBancaireMBean.transfert()");
+        cptManager.transfert(cptDebiteur,cptCrediteur, montantTransfert);
+        
+        // Refresh 
+        this.refreshListOfCptsFromDatabase();
+
+        // Vider les variables
+        cptDebiteur = null;
+        cptCrediteur = null;
+        montantTransfert = 0;
+
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Transfert effectué avec succès"));
+        return "comptes-List?faces-redirect=true";
+    }
+
+    
+    // ------------------------------------------------
+    //-- Debugg des transferts ------------------------
+    
+    public String transfert2() {
+        System.out.println("CompteBancaireMBean.transfert2()");
+        cptManager.transfert(cptDebiteur,cptCrediteur, montantTransfert);
+        
+        // Refresh 
+        this.refreshListOfCptsFromDatabase();
+
+        // Vider les variables
+        cptDebiteur = null;
+        cptCrediteur = null;
+        montantTransfert = 0;
+
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Transfert effectué avec succès"));
+        return "comptes-List?faces-redirect=true";
+    }
+    
+    private String txt6;  
+    
+    public List<String> complete(String query) {  
+        List<String> results = new ArrayList<String>();  
+          
+        for (int i = 0; i < 10; i++) {  
+            results.add(query + i);  
+        }  
+          
+        return results;  
+    }  
+    
+    
+    
+    
+    // ---- Fin transferts
+    
+    
+    
+    
+    
+    
+    
+    private void addFlashMessage(FacesMessage message) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Flash flash = facesContext.getExternalContext().getFlash();
+        flash.setKeepMessages(true);
+        flash.setRedirect(true);
+        facesContext.addMessage(null, message);
+    }
+
+
+
+
+  //------------ Thierry ---------
+    
+    /*// DEBUGG >>> OK
+    public Collection<OperationBancaire> getOperations() {
+        System.out.println("compteBancaireMBean.getOperations()");
+        Collection<OperationBancaire> operations = compteBancaire.getOperations();
+        return operations;
+    }
+    /**/
+    
+    
+    
+   // DEBUGG >>> OK 
+   public void updateCompte() {
+        System.out.println("compteBancaireMBean.updateCompte()");
+        compteBancaire = cptManager.update(compteBancaire);
+        //return "comptes-List?faces-redirect=true";
+    }
+    
+   // DEBUGG >>> OK
+    public String deleteCompte() {  
+        System.out.println("compteBancaireMBean.deleteCompte()");  
+        cptManager.deleteCompte(compteBancaire);
+        // Rafraichir la liste des comptes
+        this.refreshListOfCptsFromDatabase();
+        return "comptes-List?faces-redirect=true"; 
+    }  
+    
+    
+   // -------------------- Getters et setters en vrac
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
-        System.out.println("#### DANS SET ID !!! ###");
         this.id = id;
     }
 
@@ -135,21 +338,23 @@ public class CompteBancaireMBean implements Serializable {
         this.compteBancaire = compteBancaire;
     }
 
-    public CompteBancaire getCompteBancaireFrom() {
-        return compteBancaireFrom;
+    public CompteBancaire getCptDebiteur() {
+        return cptDebiteur;
     }
 
-    public void setCompteBancaireFrom(CompteBancaire compteBancaireFrom) {
-        this.compteBancaireFrom = compteBancaireFrom;
+    public void setCptDebiteur(CompteBancaire cptDebiteur) {
+        this.cptDebiteur = cptDebiteur;
     }
 
-    public CompteBancaire getCompteBancaireTo() {
-        return compteBancaireTo;
+    public CompteBancaire getCptCrediteur() {
+        return cptCrediteur;
     }
 
-    public void setCompteBancaireTo(CompteBancaire compteBancaireTo) {
-        this.compteBancaireTo = compteBancaireTo;
+    public void setCptCrediteur(CompteBancaire cptCrediteur) {
+        this.cptCrediteur = cptCrediteur;
     }
+
+
 
     public int getMontantTransfert() {
         return montantTransfert;
@@ -158,212 +363,6 @@ public class CompteBancaireMBean implements Serializable {
     public void setMontantTransfert(int montantTransfert) {
         this.montantTransfert = montantTransfert;
     }
-
-    /**
-     * Renvoie la liste des comptes pour affichage dans une DataTable
-     *
-     * @return
-     */
-    /*
-     public Collection getCompteBancaires() {
-     System.out.println("DANS GET COMPTEBANCAIRES");
-     return compteBancaireManager.getAllCompteBancaires();
-     }
-     */
-    public List<CompteBancaire> getCompteBancaires() {
-
-        System.out.println("DANS GET COMPTEBANCAIRE");
-        if (custList == null) {
-            refreshListOfCptsFromDatabase();
-        }
-        return custList;
-    }
-
-    /**
-     * Renvoie les détails du compte courant (celui dans l'attribut
-     * compteBancaire de cette classe), qu'on appelle une propriété (property)
-     *
-     * @return
-     */
-    public CompteBancaire getDetails() {
-        return compteBancaire;
-    }
-
-    /**
-     * Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans
-     * la DataTable pour voir les détails
-     *
-     * @param compteBancaire
-     * @return
-     */
-    public String showDetails(CompteBancaire compteBancaire) {
-        this.compteBancaire = compteBancaire;
-        return "compte-Details?faces-redirect=true";
-    }
-
-    /**
-     * Action handler - met à jour la base de données en fonction du compte
-     * passé en paramètres
-     *
-     * @return
-     */
-    public String update() {
-        compteBancaire = cptManager.update(compteBancaire);
-        return "comptes-List?faces-redirect=true";
-    }
-
-    public String delete() {
-        cptManager.delete(compteBancaire);
-        return "comptes-List?faces-redirect=true";
-    }
-
-    /**
-     * Action handler - renvoie vers la page qui affiche la liste des comptes
-     *
-     * @return
-     */
-    public String list() {
-        System.out.println("###LIST###");
-        return "comptes-List?faces-redirect=true";
-    }
-
-    public void refreshListOfCptsFromDatabase() {
-        // true force le refresh depuis la base
-        custList = cptManager.getAllCompteBancaires(true);
-
-    }
-
-    public void lireCptParId() {
-        compteBancaire = cptManager.getCompteBancaireById(id);
-    }
-
-    /**
-     * Action handler - Créer un nouveau compte
-     *
-     * @return String redirect vers la page list
-     */
-    public String createCpt() {
-        System.out.println("###CREATE###");
-        // Creation du nouveau compte
-        CompteBancaire newCpt = new CompteBancaire(this.nom, this.solde);
-        cptManager.creerCompte(newCpt);
-        // Rafraichir la liste des comptes pour inclure le nouveau compte
-        this.refreshListOfCptsFromDatabase();
-
-        // Vider les variables this;
-        this.nom = "";
-        this.solde = 0;
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Compte créé avec succès"));
-        return "comptes-List?faces-redirect=true";
-    }
-
-    public String operation() {
-        System.out.println("###CREATE OPERATION###");
-        // Creation d'une opération
-        if (typeOperation.equals("retrait")) {
-            cptManager.retrait(compteBancaire, montantOp);
-        } else if (typeOperation.equals("depot")) {
-            cptManager.depot(compteBancaire, montantOp);
-        }
-
-        compteBancaire = cptManager.update(compteBancaire);
-        refreshListOfCptsFromDatabase();
-
-        // Reinitialiser les variables this
-        this.montantOp = 0;
-        this.typeOperation = "";
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "" + typeOperation + " Réussi"));
-        return "compte-Details?faces-redirect=true";
-    }
-
-    public String transfert() {
-        cptManager.transfert(compteBancaireFrom, compteBancaireTo, montantTransfert);
-        System.out.println("###TRANSFERT OPERATION###");
-        // Refresh 
-        this.refreshListOfCptsFromDatabase();
-
-        // Vider les variables
-        compteBancaireFrom = null;
-        compteBancaireFrom = null;
-        montantTransfert = 0;
-
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Transfert effectué avec succès"));
-        return "comptes-List?faces-redirect=true";
-    }
-
-    private void addFlashMessage(FacesMessage message) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Flash flash = facesContext.getExternalContext().getFlash();
-        flash.setKeepMessages(true);
-        flash.setRedirect(true);
-        facesContext.addMessage(null, message);
-    }
-
-
-
-
-  //------------ Thierry ---------
-    
-    // DEBUGG >>> OK
-    public Collection<OperationBancaire> getOperations() {
-        System.out.println("compteBancaireMBean.getOperations()");
-        Collection<OperationBancaire> operations = compteBancaire.getOperations();
-        return operations;
-    }
-    
-    
-    
-   // DEBUGG >>> OK 
-   public void updateCompte() {
-        System.out.println("compteBancaireMBean.updateCompte()");
-        compteBancaire = cptManager.update(compteBancaire);
-        //return "comptes-List?faces-redirect=true";
-    }
-    
-   // DEBUGG >>> OK
-    public String deleteCompte() {  
-        System.out.println("compteBancaireMBean.deleteCompte()");  
-        cptManager.deleteCompte(compteBancaire);
-        // MAJ
-        //this.refresh();
-        return "comptes-List?faces-redirect=true"; 
-    }  
-    
-    
-   
-   // Methode vide... provisoire 
-   public void retrait0(){
-       System.out.println("compteBancaireMBean.retrait0()");
-       //
-   } 
-    
-   // Methode vide... provisoire 
-   public void depot0(){
-       System.out.println("compteBancaireMBean.depot0()");
-       //
-   }   
-    
-    
-    
-    
-    
-   // Methode vide... provisoire 
-   public void retrait1(){
-       System.out.println("compteBancaireMBean.retrait1()");
-       //
-   } 
-    
-   // Methode vide... provisoire 
-   public void depot1(){
-       System.out.println("compteBancaireMBean.depot1()");
-       //
-   }  
-    
-     
-    
-   /**///-----------------Claudia --------------------------------------------------
-
-
 
 
 

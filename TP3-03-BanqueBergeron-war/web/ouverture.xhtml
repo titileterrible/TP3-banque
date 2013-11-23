@@ -12,23 +12,29 @@
     <ui:define name="content">
         <f:view>
             <h:form>
-                <p:panel header="Nouveau Compte">  
+                
+                <p:panel>  
+                    <h1 style="padding-bottom:5px; margin-bottom:10px;">
+                        <h:outputText value="Création de compte"/>
+                    </h1>  
                     <h:panelGrid columns="2" cellpadding="5">  
                         <h:outputLabel value="Nom:" for="nom" />
                         <p:inputText value="#{compteBancaireMBean.nom}" id="nom" title="Nom" />
                         <h:outputLabel value="Solde initial:" for="solde" />
                         <p:inputText value="#{compteBancaireMBean.solde}" id="solde" title="Solde" />
+                        <p></p>
+                        <p:commandButton  id="transfert" value="Créer" action="#{compteBancaireMBean.createCpt}"/>
                     </h:panelGrid>
-                    <div>
-                        <p:commandButton  id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
-                        <p:commandButton  id="transfert" value="Créer" action="#{compteBancaireMBean.createCpt}"/>  
-                    </div>
                 </p:panel> 
+                
+                
+                
+                <div style="margin-top: 10px;">
+                    <p:commandButton icon="ui-icon-arrowthick-1-w" id="back10" value="Retour" action="#{compteBancaireMBean.list}"/>  
+                </div>
             </h:form>
         </f:view>
-
     </ui:define>
-
 </ui:composition>
 
     

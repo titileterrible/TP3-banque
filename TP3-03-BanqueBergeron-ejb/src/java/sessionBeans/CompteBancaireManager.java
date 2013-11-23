@@ -49,10 +49,6 @@ public class CompteBancaireManager {
       
     }
     
-    
-    
-      
-
     // DAO avancée ---------------------------------
     public List<CompteBancaire> getAllComptes() {
         Query query = em.createNamedQuery("Cpt.findAll");
@@ -89,6 +85,7 @@ public class CompteBancaireManager {
     
        
     public void transfert(CompteBancaire cpt1, CompteBancaire cpt2, double montant) {
+          System.out.println("CompteBancaireManager.transfert()");
           System.out.println("#### TRANSFERT ###"+cpt1+"   "+cpt2+"   "+montant);
 //        this.retrait(cpt1, montant);
 //        this.depot(cpt2, montant);
@@ -124,6 +121,7 @@ public class CompteBancaireManager {
     }
 
     public CompteBancaire getCompteBancaireById(int id) {
+        
         System.out.println("#### JE VAIS CHERCHER LE COMPTE DANS LA BASE ###");
         return em.find(CompteBancaire.class, id);
     }

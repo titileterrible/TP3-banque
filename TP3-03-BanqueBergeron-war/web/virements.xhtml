@@ -7,50 +7,48 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:="http://www.w3.org/1999/xhtml">
 
-    <ui:define name="titrePage">Transfert</ui:define>
+    <ui:define name="titrePage">Virements</ui:define>
+
     <ui:define name="content">
         <f:view>
-             <h:form class="action">
-                <p:panel header="Virement">  
-                    
-                     <div>
-                        <p:commandButton  id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
-                        <p:commandButton  id="transfert" value="Transferer" action="#{compteBancaireMBean.transfert}"/>  
-                    </div> 
-                    
-                    
-                  <h:panelGrid columns="2" cellpadding="5">  
-                            <h:outputLabel value="Compte à débiter :" for="compte1" />
-                            <h:selectOneMenu id="compte1"  value="#{compteBancaireMBean.compteBancaireFrom}" title="Compte 1" required="true" requiredMessage="This field is required."> 
-                                <f:selectItems var="item" itemLabel="#{item.id} - #{item.nom}" value="#{compteBancaireMBean.compteBancaires}"/>
-                            </h:selectOneMenu>
-                            <h:outputLabel value="Compte à créditer :" for="compte2" />
-                            <h:selectOneMenu id="compte2" value="#{compteBancaireMBean.compteBancaireTo}" title="Compte 2" required="true" requiredMessage="This field is required."> 
-                                <f:selectItems var="item" itemLabel="#{item.id} - #{item.nom}" value="#{compteBancaireMBean.compteBancaires}" />
-                            </h:selectOneMenu>
-                            <h:outputLabel value="Montant :" for="montant" />
-                            <h:inputText id="montant" required="true" value="#{compteBancaireMBean.montantTransfert}" title="Montant" />                  
-                    </h:panelGrid>              
-                    
-                    
-                    
-                    
-                   
-                    
+
+            <h:form class="action">                  
+
+                <p:panel>  
+
+                    <h1 style="padding-bottom:5px; margin-bottom:10px;">
+                        <h:outputText value="Transfert de compte à compte"/>
+                    </h1>  
+
+                    <h:panelGrid columns="2" cellpadding="5" style="font-size:12px">  
+
+                        <p:outputLabel value="Compte débiteur : " for="compte1" />
+                        <p:selectOneMenu id="compte1"  value="#{compteBancaireMBean.cptDebiteur}">               
+                            <f:selectItems var="item" itemLabel="#{item.id} - #{item.nom}" value="#{compteBancaireMBean.compteBancaires}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Compte créditeur : " for="compte2" />
+                        <p:selectOneMenu id="compte2" value="#{compteBancaireMBean.cptCrediteur}"> 
+                            <f:selectItems var="item" itemLabel="#{item.id} - #{item.nom}" value="#{compteBancaireMBean.compteBancaires}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Montant :" for="montant" />
+                        <p:inputText id="montant" required="true" value="#{compteBancaireMBean.montantTransfert}" title="Montant" />   
+                        
+                        <p></p>
+                        <p:commandButton  id="transfert" value="Transferer" action="#{compteBancaireMBean.transfert}"/>
+
+                    </h:panelGrid>
+
                 </p:panel> 
+
+                <div style="margin-top: 10px;">
+                    <p:commandButton icon="ui-icon-arrowthick-1-w" id="back10" value="Retour liste des comptes" action="#{compteBancaireMBean.list}"/>  
+                </div>
+
             </h:form>
+
+
         </f:view>
-
     </ui:define>
-
 </ui:composition>
-
-
-
-
-
-
-
-
-
-   
