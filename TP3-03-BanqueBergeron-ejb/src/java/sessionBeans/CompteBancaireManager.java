@@ -43,12 +43,13 @@ public class CompteBancaireManager {
         em.remove(em.merge(cpte));
         return true;
     }
-    
+
     public void delete(CompteBancaire cpte) {
-        em.remove(em.merge(cpte)); em.createQuery("delete from CompteBancaire c where c.id=" + cpte.getId()).executeUpdate();
-      
+        em.remove(em.merge(cpte));
+        em.createQuery("delete from CompteBancaire c where c.id=" + cpte.getId()).executeUpdate();
+
     }
-    
+
     // DAO avancée ---------------------------------
     public List<CompteBancaire> getAllComptes() {
         Query query = em.createNamedQuery("Cpt.findAll");
@@ -62,13 +63,11 @@ public class CompteBancaireManager {
         return query.getResultList();
     }
 
- 
     public CompteBancaire creerCompte(CompteBancaire cpt) {
         em.persist(cpt);
         return cpt;
     }
 
-    
     public void depot(CompteBancaire cpt, double montant) {
         cpt.deposer(montant);
         OperationBancaire op = new OperationBancaire("Dépot", montant);
@@ -82,23 +81,33 @@ public class CompteBancaireManager {
         cpt.getOperations().add(op);
         em.merge(cpt);
     }
-    
-       
+
     public void transfert(CompteBancaire cpt1, CompteBancaire cpt2, double montant) {
-          System.out.println("CompteBancaireManager.transfert()");
-          System.out.println("#### TRANSFERT ###"+cpt1+"   "+cpt2+"   "+montant);
-//        this.retrait(cpt1, montant);
-//        this.depot(cpt2, montant);
-      
-        
-        cpt1.retirer(montant);
-        cpt2.deposer(montant);
-        em.merge(cpt2);
-        em.merge(cpt1);
+        System.out.println("CompteBancaireManager.transfert()");
+        System.out.println("#### TRANSFERT ###" + cpt1 + "   " + cpt2 + "   " + montant);
+        try {
+            this.retrait(cpt1, montant);
+        } catch (Exception e) {
+            //TODO
+            e.printStackTrace();
+        }
+        try {
+            this.depot(cpt2, montant);
+        } catch (Exception e) {
+            //TODO
+             e.printStackTrace();
+        }
+
+    }
+    // Recherche de compte 
+
+    public List<CompteBancaire> findComptesLike(String search) {
+        Query query = em.createNamedQuery("Cpt.autoComplete");
+        query.setParameter("search", "%" + search + "%");   
+        return query.getResultList();
     }
 
     // Liste de compte avec option refresh ------------------------------------
-    
     public List<CompteBancaire> getAllCompteBancaires(boolean forceRefresh) {
         Query query = em.createNamedQuery("Cpt.findAll");
         // Cette liste provient du cache de niveau 2 et 1
@@ -121,15 +130,12 @@ public class CompteBancaireManager {
     }
 
     public CompteBancaire getCompteBancaireById(int id) {
-        
+
         System.out.println("#### JE VAIS CHERCHER LE COMPTE DANS LA BASE ###");
         return em.find(CompteBancaire.class, id);
     }
-    
 
-    
-    
-   // Méthodes ------------------------------------
+    // Méthodes ------------------------------------
     public void creerComptesTest() {
         creerCompte(new CompteBancaire("John Lennon", 1500000));
         creerCompte(new CompteBancaire("Paul McCartney", 9500000));
@@ -156,6 +162,4 @@ public class CompteBancaireManager {
         creerCompte(new CompteBancaire("Edouard Amosse3", 1200));
         creerCompte(new CompteBancaire("Tresorerie Unice3 ", 100000));
     }
-
-    
 }

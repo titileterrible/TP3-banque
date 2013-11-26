@@ -25,8 +25,9 @@ import javax.persistence.OneToMany;
     @NamedQuery(
         name = "Cpt.findAll", query = "SELECT cpt FROM CompteBancaire cpt ORDER BY cpt.id"),
      @NamedQuery(
-        name = "Cpt.delete", query = "delete from CompteBancaire cpt where cpt.id = :cptId")
-        
+        name = "Cpt.delete", query = "delete from CompteBancaire cpt where cpt.id = :cptId"),
+     @NamedQuery(
+        name = "Cpt.autoComplete", query = "select c from CompteBancaire c where lower(c.nom) like :search")   
 })
 @Entity
 public class CompteBancaire implements Serializable {

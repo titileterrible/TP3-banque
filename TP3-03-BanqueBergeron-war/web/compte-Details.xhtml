@@ -35,28 +35,24 @@
                         <br/>
                         <p:commandButton value="Effacer la notification" onclick="PF('bar').hide()" type="button" />
                     </p:notificationBar>
-
-                         
+                    
 
                 </p:panel>
-                
-                
-                
                 <br/>
                 
                 <p:panel>
                     <h1 style="padding-bottom:5px; margin-bottom:10px;">
-                        <h:outputText value="Liste des opérations du Compte N°#{compteBancaireMBean.details.id} - ( #{compteBancaireMBean.details.nom} )"/>
-
-                    
+                        <h:outputText value="Liste des opérations du Compte N°#{compteBancaireMBean.details.id} - ( #{compteBancaireMBean.details.nom} )"/>    
                     </h1>
   
                         <p:dataTable value="#{compteBancaireMBean.details.operations}" id="listOperations" var="item">
                             <p:column sortBy="#{item.dateOp}">
                                 <f:facet name="header">
                                     <h:outputText value="Date"/>
-                                </f:facet>
-                                <h:outputText value="#{item.dateOp}"/>
+                                </f:facet>            
+                                <h:outputText value="#{item.dateOp}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>                                
                             </p:column>
                             <p:column sortBy="#{item.commentOp}">
                                 <f:facet name="header">

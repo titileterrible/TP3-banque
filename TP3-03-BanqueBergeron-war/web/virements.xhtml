@@ -7,6 +7,59 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:="http://www.w3.org/1999/xhtml">
 
+    <ui:define name="titrePage">Transfert</ui:define>
+    
+    <ui:define name="content">
+        <f:view>
+            <h:form>
+                <p:panel header="Virement">  
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        <h:outputLabel value="Compte à débiteur : "/>  
+                        <p:autoComplete value="#{compteBancaireMBean.cptDebiteur}" completeMethod="#{compteBancaireMBean.autoCompleteCpt}" var="cpt" itemLabel="#{cpt.nom}" itemValue="#{cpt}" forceSelection="true" converter="#{compteBancaireMBean.converter}" widgetVar="deCompte"/>   
+                        
+                        <h:outputLabel value="Compte à créditer : "/>  
+                        <p:autoComplete value="#{compteBancaireMBean.cptCrediteur}" completeMethod="#{compteBancaireMBean.autoCompleteCpt}" var="cpt" itemLabel="#{cpt.nom}" itemValue="#{cpt}" forceSelection="true" converter="#{compteBancaireMBean.converter}" widgetVar="versCompte"/>   
+                        
+                        <h:outputLabel value="Montant du transfert:" for="montantTransfert" />
+                        <p:inputText id="montantTransfert" value="#{compteBancaireMBean.montantTransfert}" title="montantTransfert" />
+                    </h:panelGrid>
+                    <div>
+                        <p:commandButton icon="ui-icon-arrowthick-1-w" id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
+                        <p:commandButton icon="ui-icon-pencil" id="transfert" value="Transferer" action="#{compteBancaireMBean.transfert()}"/>  
+                    </div>
+                </p:panel> 
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="./template_default.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:="http://www.w3.org/1999/xhtml">
+
     <ui:define name="titrePage">Virements</ui:define>
 
     <ui:define name="content">
@@ -51,4 +104,4 @@
 
         </f:view>
     </ui:define>
-</ui:composition>
+</ui:composition>-->
