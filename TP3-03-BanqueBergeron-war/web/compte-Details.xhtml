@@ -29,14 +29,9 @@
                     &nbsp;
                     <p:commandButton icon="ui-icon-suitcase" id="operation" value="Nouvelle oprération" onclick="operation.show()"/>
                     
-               
-                    <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">
-                        <h1><h:outputText value="Modification du compte n°#{compteBancaireMBean.details.id} enregistrée !" /></h1>
-                        <br/>
-                        <p:commandButton value="Effacer la notification" onclick="PF('bar').hide()" type="button" />
-                    </p:notificationBar>
-                    
-
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> 
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+                
                 </p:panel>
                 <br/>
                 

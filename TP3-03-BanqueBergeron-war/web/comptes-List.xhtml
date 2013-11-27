@@ -12,8 +12,9 @@
             <f:view>
                 <h:form>
                     <h1><h:outputText value="Liste des comptes"/></h1>    
-
-
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> 
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+                    
                     <p:dataTable  id="cTable" value="#{compteBancaireMBean.modele}" var="item" paginator="true" rows="5" lazy="true"
                                   paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
                                   rowsPerPageTemplate="5,10,15"
@@ -26,6 +27,7 @@
                                 </f:facet>
                                 <h:outputText value="#{item.id}"/>
                             </p:column>
+                        
 
                             <p:column>
                                 <f:facet name="header">

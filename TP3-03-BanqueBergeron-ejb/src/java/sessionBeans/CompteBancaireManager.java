@@ -78,6 +78,10 @@ public class CompteBancaireManager {
 
     public CompteBancaire creerCompte(CompteBancaire cpt) {
         em.persist(cpt);
+        // Enregistrement de l'opération de création
+        OperationBancaire op = new OperationBancaire("Création du compte " + cpt.getNom(), cpt.getSolde());
+        cpt.getOperations().add(op);
+        
         return cpt;
     }
 

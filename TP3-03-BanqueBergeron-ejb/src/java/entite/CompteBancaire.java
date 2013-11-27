@@ -140,7 +140,7 @@ public class CompteBancaire implements Serializable {
 
     @Override
     public String toString() {
-        return "Cpte n°" + id + " - " + nom;
+        return "Cpte n°" + id + " ( " + nom + " ) ";
     }
     
     

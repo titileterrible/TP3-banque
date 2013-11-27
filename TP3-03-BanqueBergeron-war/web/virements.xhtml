@@ -12,7 +12,11 @@
     <ui:define name="content">
         <f:view>
             <h:form>
-                <p:panel header="Virement">  
+                <p:panel>  
+                    <h1 style="padding-bottom:5px; margin-bottom:10px;">
+                        <h:outputText value="Virement"/>
+                    </h1>
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                     <h:panelGrid columns="2" cellpadding="5">  
                         <h:outputLabel value="Compte à débiteur : "/>  
                         <p:autoComplete value="#{compteBancaireMBean.cptDebiteur}" completeMethod="#{compteBancaireMBean.autoCompleteCpt}" var="cpt" itemLabel="#{cpt.nom}" itemValue="#{cpt}" forceSelection="true" converter="#{compteBancaireMBean.converter}" widgetVar="deCompte"/>   
@@ -22,12 +26,21 @@
                         
                         <h:outputLabel value="Montant du transfert:" for="montantTransfert" />
                         <p:inputText id="montantTransfert" value="#{compteBancaireMBean.montantTransfert}" title="montantTransfert" />
+                        
+                        <p></p>
+                        <p:commandButton icon="ui-icon-pencil" id="transfert" value="Transferer" action="#{compteBancaireMBean.transfert()}"/>
                     </h:panelGrid>
-                    <div>
-                        <p:commandButton icon="ui-icon-arrowthick-1-w" id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
-                        <p:commandButton icon="ui-icon-pencil" id="transfert" value="Transferer" action="#{compteBancaireMBean.transfert()}"/>  
-                    </div>
+
                 </p:panel> 
+                <br/>
+                
+                
+                <div style="margin-top: 10px;">
+                    <p:commandButton icon="ui-icon-arrowthick-1-w" id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
+                </div>
+                
+                
+                
             </h:form>
         </f:view>
 

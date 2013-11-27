@@ -51,6 +51,10 @@ public class CompteBancaireMBean implements Serializable {
     private int montantTransfert;
     private LazyDataModel<CompteBancaire> modele;
 
+    
+    /**
+    * Crée une instance de CompteBancaireMBean
+    */
     public CompteBancaireMBean() {
         modele = new LazyDataModel<CompteBancaire>() {
             @Override
@@ -73,9 +77,7 @@ public class CompteBancaireMBean implements Serializable {
         return modele;
     }
 
-    /**
-     * Crée une instance de CompteBancaireMBean
-     */
+
 
 
     /**
@@ -92,9 +94,7 @@ public class CompteBancaireMBean implements Serializable {
     }
 
     /**
-     * Renvoie les détails du compte courant (celui dans l'attribut
-     * compteBancaire de cette classe), qu'on appelle une propriété (property)
-     *
+     * Details du compte courant
      * @return
      */
     public CompteBancaire getDetails() {
@@ -102,11 +102,9 @@ public class CompteBancaireMBean implements Serializable {
     }
 
     /**
-     * Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans
-     * la DataTable pour voir les détails
-     *
+     * Selection compte dans la liste des comptes
      * @param compteBancaire
-     * @return
+     * @return String redirection vers la page détails
      */
     public String showDetails(CompteBancaire compteBancaire) {
         this.compteBancaire = compteBancaire;
@@ -114,10 +112,7 @@ public class CompteBancaireMBean implements Serializable {
     }
 
     /**
-     *
-     * /**
-     * Action handler - renvoie vers la page qui affiche la liste des comptes
-     *
+     * Redirection vers la liste des comptes
      * @return
      */
     public String list() {
@@ -125,42 +120,43 @@ public class CompteBancaireMBean implements Serializable {
         return "comptes-List?faces-redirect=true";
     }
 
+    /**
+     * ??? Utile ???
+     */
     public void refreshListOfCptsFromDatabase() {
         System.out.println("CompteBancaireMBean.refreshListOfCptsFromDatabase()");
         // true force le refresh depuis la base
         custList = cptManager.getAllCompteBancaires(true);
-
     }
 
+    /**
+     * ??? utile ???
+     */
     public void lireCptParId() {
         System.out.println("CompteBancaireMBean.lireCptParId()");
         compteBancaire = cptManager.getCompteBancaireById(id);
     }
 
     /**
-     * Action handler - Créer un nouveau compte
-     *
+     * Création compte
      * @return String redirect vers la page list
      */
     public String createCpt() {
         System.out.println("CompteBancaireMBean.createCpt()");
-
         // Creation du nouveau compte
         CompteBancaire newCpt = new CompteBancaire(this.nom, this.solde);
         cptManager.creerCompte(newCpt);
         // Rafraichir la liste des comptes pour inclure le nouveau compte
         this.refreshListOfCptsFromDatabase();
-
-        // Vider les variables this;
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, newCpt.toString(), "Enregistrement réussi"));
+        // Réinitialisation variables pour affichage...
         this.nom = "";
         this.solde = 0;
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Compte créé avec succès"));
         return "comptes-List?faces-redirect=true";
     }
 
     /**
-     * Action handler - Créer une opération
-     *
+     * Création opération
      * @return String redirect vers la page details
      */
     public String operation() {
@@ -172,31 +168,34 @@ public class CompteBancaireMBean implements Serializable {
         } else if (typeOperation.equals("depot")) {
             cptManager.depot(compteBancaire, montantOp);
         }
-
         compteBancaire = cptManager.update(compteBancaire);
         refreshListOfCptsFromDatabase();
-
-        // Reinitialiser les variables this
+        // Dialogue
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "" + typeOperation + " Réussi"));
+        // R.A.Z
         this.montantOp = 0;
         this.typeOperation = "";
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "" + typeOperation + " Réussi"));
+        // Redirection
         return "compte-Details?faces-redirect=true";
     }
     //---------------virements------------------------------------
 
+    /**
+     * Création Virement de compte a compte
+     * @return String redirect vers la page liste
+     */
     public String transfert() {
         System.out.println("CompteBancaireMBean.transfert()");
         cptManager.transfert(cptDebiteur, cptCrediteur, montantTransfert);
-
         // Refresh 
         this.refreshListOfCptsFromDatabase();
-
-        // Vider les variables
+        // Dialogue
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Transfert effectué avec succès"));
+        // R.A.Z
         cptDebiteur = null;
         cptCrediteur = null;
         montantTransfert = 0;
-
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "Transfert effectué avec succès"));
+        // Redirection
         return "comptes-List?faces-redirect=true";
     }
 
@@ -227,7 +226,6 @@ public class CompteBancaireMBean implements Serializable {
         this.converter = converter;
     }
     //---------------fin autocomplete pour la page virement----------
-    private String txt6;
 
     public List<String> complete(String query) {
         List<String> results = new ArrayList<>();
@@ -239,7 +237,13 @@ public class CompteBancaireMBean implements Serializable {
         return results;
     }
 
-    // ---- Fin transferts
+    // ---- Fin transferts  
+    
+    /**
+     * Instanciation d'un message de dialogue
+     * Copié tel quel chez Miollan
+     * @param message 
+     */
     private void addFlashMessage(FacesMessage message) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Flash flash = facesContext.getExternalContext().getFlash();
@@ -249,23 +253,26 @@ public class CompteBancaireMBean implements Serializable {
     }
 
     //------------ Thierry ---------
-    /*// DEBUGG >>> OK
-     public Collection<OperationBancaire> getOperations() {
-     System.out.println("compteBancaireMBean.getOperations()");
-     Collection<OperationBancaire> operations = compteBancaire.getOperations();
-     return operations;
-     }
-     /**/
-    // DEBUGG >>> OK 
+  
+    /**
+     * @author Thierry
+     */
     public void updateCompte() {
         System.out.println("compteBancaireMBean.updateCompte()");
         compteBancaire = cptManager.update(compteBancaire);
-        //return "comptes-List?faces-redirect=true";
+        // Dialogue
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Modification enregistrée", compteBancaire.toString()));
     }
 
-    // DEBUGG >>> OK
+    /**
+     * @author Thierry
+     * @return String redirec vers la liste des comptes
+     */
     public String deleteCompte() {
         System.out.println("compteBancaireMBean.deleteCompte()");
+        // Dialogue
+        String deleteMessage = compteBancaire.toString();
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_WARN, "Compte supprimé ",deleteMessage));
         cptManager.deleteCompte(compteBancaire);
         // Rafraichir la liste des comptes
         this.refreshListOfCptsFromDatabase();
