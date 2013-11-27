@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -18,6 +19,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import sessionBeans.CompteBancaireManager;
 
 /**
@@ -46,20 +49,34 @@ public class CompteBancaireMBean implements Serializable {
     private CompteBancaire cptDebiteur;
     private CompteBancaire cptCrediteur;
     private int montantTransfert;
+    private LazyDataModel<CompteBancaire> modele;
+
+    public CompteBancaireMBean() {
+        modele = new LazyDataModel<CompteBancaire>() {
+            @Override
+            public List load(int i, int i1, String string, SortOrder so, Map map) {
+                return cptManager.getComptesByRange(i, i1);
+            }
+
+            @Override
+            public int getRowCount() {
+                return cptManager.getCountComptes();
+            }
+        };
+    }
+    
+    public void setModele(LazyDataModel modele) {
+        this.modele = modele;
+    }
+
+    public LazyDataModel getModele() {
+        return modele;
+    }
 
     /**
      * Crée une instance de CompteBancaireMBean
      */
-    public CompteBancaireMBean() {
-        System.out.println("CompteBancaireMBean() BEAN CONSTRUIT !");
-    }
 
-//    public List<CompteBancaire> getAllCpts() {
-//        return cptManager.getAllComptes();
-//    }
-    public List<CompteBancaire> getCptsByRange(int offset, int qte) {
-        return cptManager.getAllComptes();
-    }
 
     /**
      * Renvoie la liste des comptes pour affichage dans une DataTable
@@ -165,7 +182,8 @@ public class CompteBancaireMBean implements Serializable {
         addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Gestion des comptes", "" + typeOperation + " Réussi"));
         return "compte-Details?faces-redirect=true";
     }
- //---------------virements------------------------------------
+    //---------------virements------------------------------------
+
     public String transfert() {
         System.out.println("CompteBancaireMBean.transfert()");
         cptManager.transfert(cptDebiteur, cptCrediteur, montantTransfert);
@@ -183,7 +201,6 @@ public class CompteBancaireMBean implements Serializable {
     }
 
     //---------------autocomplete pour la page virement-----------
-    
     public List<CompteBancaire> autoCompleteCpt(String like) {
         return cptManager.findComptesLike(like);
     }
@@ -210,12 +227,10 @@ public class CompteBancaireMBean implements Serializable {
         this.converter = converter;
     }
     //---------------fin autocomplete pour la page virement----------
-    
-    
     private String txt6;
 
     public List<String> complete(String query) {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             results.add(query + i);

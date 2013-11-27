@@ -5,14 +5,21 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
-        <ui:composition template="./template_default.xhtml">     
-           <ui:define name="titrePage">Comptes clients</ui:define>
-            <ui:define name="content">   
-                <f:view>
-                    <h:form>
-                        <h1><h:outputText value="Liste des comptes"/></h1>                     
-                        <p:dataTable value="#{compteBancaireMBean.compteBancaires}" var="item" paginator="true"  rows="10" >
+
+    <ui:composition template="./template_default.xhtml">     
+        <ui:define name="titrePage">Comptes clients</ui:define>
+        <ui:define name="content">   
+            <f:view>
+                <h:form>
+                    <h1><h:outputText value="Liste des comptes"/></h1>    
+
+
+                    <p:dataTable  id="cTable" value="#{compteBancaireMBean.modele}" var="item" paginator="true" rows="5" lazy="true"
+                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
+                                  rowsPerPageTemplate="5,10,15"
+                                  rowStyleClass="#{compteBean.colorow(item.solde)}"
+                                  emptyMessage="Aucun compte bancaire trouvé." >  
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Id"/>
@@ -33,7 +40,7 @@
                                 </f:facet>
                                 <h:outputText value="#{item.solde} €"/>
                             </p:column>                        
-                            
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Action"/>
@@ -42,10 +49,10 @@
                             </p:column>
 
                         </p:dataTable>
-                    </h:form>
-                </f:view>                
-            </ui:define>
-        </ui:composition>
-  
+                </h:form>
+            </f:view>                
+        </ui:define>
+    </ui:composition>
+
 </html>
 

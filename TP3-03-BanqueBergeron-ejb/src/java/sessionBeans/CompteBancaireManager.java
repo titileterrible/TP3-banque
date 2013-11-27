@@ -7,15 +7,24 @@ package sessionBeans;
 import entite.CompteBancaire;
 import entite.OperationBancaire;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  *
- * @author thierry
+ * @author GLYSE581B
  */
 @Stateless
 @LocalBean
@@ -25,6 +34,8 @@ public class CompteBancaireManager {
     // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
+   // @Resource
+    //UserTransaction utx;
 
     // DAO de base --------------------------------
     public void persist(Object object) {
@@ -55,11 +66,13 @@ public class CompteBancaireManager {
         Query query = em.createNamedQuery("Cpt.findAll");
         return query.getResultList();
     }
-
-    public List<CompteBancaire> getComptesByRange(int offset, int qte) {
-        Query query = em.createNamedQuery("Cpt.findAll");
-        query.setMaxResults(qte);
-        query.setFirstResult((offset - 1) * qte);
+  
+        public List<CompteBancaire> getComptesByRange(int start, int nbComptes){
+        
+        Query query =em.createNamedQuery("Cpt.findAll");
+        query.setFirstResult(start);
+        query.setMaxResults(nbComptes);
+        
         return query.getResultList();
     }
 
@@ -70,14 +83,14 @@ public class CompteBancaireManager {
 
     public void depot(CompteBancaire cpt, double montant) {
         cpt.deposer(montant);
-        OperationBancaire op = new OperationBancaire("Dépot", montant);
+        OperationBancaire op = new OperationBancaire("Dépot vers le compte " + cpt.getNom(), montant);
         cpt.getOperations().add(op);
         em.merge(cpt);
     }
 
     public void retrait(CompteBancaire cpt, double montant) {
         cpt.retirer(montant);
-        OperationBancaire op = new OperationBancaire("Retrait", montant);
+        OperationBancaire op = new OperationBancaire("Retrait à partir du compte " + cpt.getNom(), montant);
         cpt.getOperations().add(op);
         em.merge(cpt);
     }
@@ -86,24 +99,57 @@ public class CompteBancaireManager {
         System.out.println("CompteBancaireManager.transfert()");
         System.out.println("#### TRANSFERT ###" + cpt1 + "   " + cpt2 + "   " + montant);
         try {
-            this.retrait(cpt1, montant);
+            //this.retrait(cpt1, montant);
+            cpt1.retirer(montant);
+            OperationBancaire op = new OperationBancaire("Virement vers le compte " + cpt2.getNom(), montant);
+            cpt1.getOperations().add(op);
+            em.merge(cpt1);
         } catch (Exception e) {
-            //TODO
-            e.printStackTrace();
+            // Si une erreur est apparue, on arrête.
+            return;
         }
         try {
-            this.depot(cpt2, montant);
+            //this.depot(cpt2, montant);
+            cpt2.deposer(montant);
+            OperationBancaire op = new OperationBancaire("Virement reçu du compte " + cpt1.getNom(), montant);
+            cpt2.getOperations().add(op);
+            em.merge(cpt2);
+
+
         } catch (Exception e) {
-            //TODO
-             e.printStackTrace();
+            //Si une erreur est apparue, o s'arrête, mais avant, on redépose 
+            //l'argent sur le compte 1
+            this.depot(cpt1, montant);
+            //cpt1.getOperations().remove(cpt1.getOperations().size() - 1);
+
+            return;
         }
 
     }
-    // Recherche de compte 
+//    public void transfert(CompteBancaire cpt1, CompteBancaire cpt2, double montant) {
+//        try {
+//            utx.begin();
+//            if (cpt1.getSolde() < montant) {
+//                 Logger.getLogger(CompteBancaireManager.class.getName()).log(Level.INFO, "Votre solde ne permet pas de faire un virement ");
+//                utx.rollback();
+//            }
+//            this.retrait(cpt1, montant);
+//            this.depot(cpt2, montant);
+//            utx.commit();
+//        } catch (NotSupportedException | SystemException | IllegalStateException | SecurityException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
+//            try {
+//                utx.rollback();
+//            } catch (    IllegalStateException | SecurityException | SystemException ex) {
+//                Logger.getLogger(CompteBancaireManager.class.getName()).log(Level.SEVERE, "Erreur lors de transfert "+ex.getMessage(), ex);
+//            }
+//            Logger.getLogger(CompteBancaireManager.class.getName()).log(Level.SEVERE, "Erreur lors de transfert "+e.getMessage(), e);
+//        }
+//    }
 
+    // Recherche de compte 
     public List<CompteBancaire> findComptesLike(String search) {
         Query query = em.createNamedQuery("Cpt.autoComplete");
-        query.setParameter("search", "%" + search + "%");   
+        query.setParameter("search", "%" + search + "%");
         return query.getResultList();
     }
 
@@ -127,6 +173,20 @@ public class CompteBancaireManager {
         }
 
         return liste;
+    }
+
+    public int getCountComptes() {
+        Query query = em.createNamedQuery("Cpt.CountCpts");
+return ((Long) query.getSingleResult()).intValue();
+    }
+
+    public void creerOperation(CompteBancaire compteBancaire, String descrption, float montant) {
+        OperationBancaire op = new OperationBancaire(descrption, montant);
+        compteBancaire.getOperations().add(op);
+    }
+
+    public CompteBancaire consulter(long id) {
+        return em.find(CompteBancaire.class, id);
     }
 
     public CompteBancaire getCompteBancaireById(int id) {
