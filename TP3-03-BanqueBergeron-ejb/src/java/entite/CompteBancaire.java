@@ -8,11 +8,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,6 +36,9 @@ import javax.persistence.OneToMany;
         name = "Cpt.autoComplete", query = "select c from CompteBancaire c where lower(c.nom) like :search")   
 })
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="DISC",discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("CompteBancaire")
 public class CompteBancaire implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,6 +46,9 @@ public class CompteBancaire implements Serializable {
     private Long id;
     private String nom;
     private double solde;
+    //private String typeCompte;
+
+
     
     @OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<OperationBancaire> operations = new ArrayList<>();
@@ -140,7 +151,7 @@ public class CompteBancaire implements Serializable {
 
     @Override
     public String toString() {
-        return "Cpte n°" + id + " ( " + nom + " ) ";
+        return "Compte n°" + id + " ( " + nom + " ) ";
     }
     
     
@@ -151,7 +162,6 @@ public class CompteBancaire implements Serializable {
     public void setOperations(List<OperationBancaire> operations) {
         this.operations = operations;
     }
-    
-    
+
     
 }

@@ -42,6 +42,11 @@ public class CompteBancaireMBean implements Serializable {
     private String nom;
     private int solde;
     private List<CompteBancaire> custList = null;
+    
+    // Comptes Courants et Epargne
+    private String typeCompte;
+    
+    
     //opération
     private String typeOperation;
     private int montantOp;
@@ -280,6 +285,22 @@ public class CompteBancaireMBean implements Serializable {
     }
 
     // -------------------- Getters et setters en vrac
+    
+    
+    
+    public String getTypeCompte() {
+        return typeCompte;
+    }
+
+    public void setTypeCompte(String typeCompte) {
+        this.typeCompte = typeCompte;
+    }
+    
+    
+    
+    
+    
+    
     public int getId() {
         return id;
     }
@@ -375,4 +396,8 @@ public class CompteBancaireMBean implements Serializable {
     public void setMontantTransfert(int montantTransfert) {
         this.montantTransfert = montantTransfert;
     }
+    
+    // Messages Driven Bean
+    
+    
 }

@@ -145,7 +145,7 @@ public class OperationBancaire implements Serializable {
 
     @Override
     public String toString() {
-        return "Op n°" + id;
+        return "Opération n°" + id;
     }
     
 }

@@ -5,6 +5,8 @@
 package sessionBeans;
 
 import entite.CompteBancaire;
+import entite.CompteCourant;
+import entite.CompteEpargne;
 import entite.OperationBancaire;
 import java.util.List;
 import java.util.logging.Level;
@@ -201,6 +203,8 @@ return ((Long) query.getSingleResult()).intValue();
 
     // Méthodes ------------------------------------
     public void creerComptesTest() {
+        
+        /*// Comptes de base
         creerCompte(new CompteBancaire("John Lennon", 1500000));
         creerCompte(new CompteBancaire("Paul McCartney", 9500000));
         creerCompte(new CompteBancaire("Ringo Starr", 200000));
@@ -209,21 +213,39 @@ return ((Long) query.getSingleResult()).intValue();
         creerCompte(new CompteBancaire("Michel Buffa", 2500));
         creerCompte(new CompteBancaire("Edouard Amosse", 1200));
         creerCompte(new CompteBancaire("Tresorerie Unice ", 100000));
-        creerCompte(new CompteBancaire("John Lennon2", 1500000));
-        creerCompte(new CompteBancaire("Paul McCartney2", 9500000));
-        creerCompte(new CompteBancaire("Ringo Starr2", 200000));
-        creerCompte(new CompteBancaire("Georges Harrisson2", 1000000));
-        creerCompte(new CompteBancaire("Beattles Production inc2", 3000000));
-        creerCompte(new CompteBancaire("Michel Buffa2", 2500));
-        creerCompte(new CompteBancaire("Edouard Amosse2", 1200));
-        creerCompte(new CompteBancaire("Tresorerie Unice2 ", 100000));
-        creerCompte(new CompteBancaire("John Lennon3", 1500000));
-        creerCompte(new CompteBancaire("Paul McCartney3", 9500000));
-        creerCompte(new CompteBancaire("Ringo Starr3", 200000));
-        creerCompte(new CompteBancaire("Georges Harrisson3", 1000000));
-        creerCompte(new CompteBancaire("Beattles Production inc3", 3000000));
-        creerCompte(new CompteBancaire("Michel Buffa3", 2500));
-        creerCompte(new CompteBancaire("Edouard Amosse3", 1200));
-        creerCompte(new CompteBancaire("Tresorerie Unice3 ", 100000));
+        /**/
+        
+        // Comptes courant
+        creerCompte(new CompteCourant("John Lennon2", 1500000));
+        creerCompte(new CompteCourant("Paul McCartney2", 9500000));
+        creerCompte(new CompteCourant("Ringo Starr2", 200000));
+        creerCompte(new CompteCourant("Georges Harrisson2", 1000000));
+        creerCompte(new CompteCourant("Beattles Production inc2", 3000000));
+        creerCompte(new CompteCourant("Michel Buffa2", 2500));
+        creerCompte(new CompteCourant("Edouard Amosse2", 1200));
+        creerCompte(new CompteCourant("Tresorerie Unice2 ", 100000));
+        /**/
+        
+        // Comptes Epargne
+        creerCompte(new CompteEpargne("John Lennon3", 1500000));
+        creerCompte(new CompteEpargne("Paul McCartney3", 9500000));
+        creerCompte(new CompteEpargne("Ringo Starr3", 200000));
+        creerCompte(new CompteEpargne("Georges Harrisson3", 1000000));
+        creerCompte(new CompteEpargne("Beattles Production inc3", 3000000));
+        creerCompte(new CompteEpargne("Michel Buffa3", 2500));
+        creerCompte(new CompteEpargne("Edouard Amosse3", 1200));
+        creerCompte(new CompteEpargne("Tresorerie Unice3 ", 100000));
+        /**/
     }
+
+
+
+
+
+
+
+
+
+
+
 }
