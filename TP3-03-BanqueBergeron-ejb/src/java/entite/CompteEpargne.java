@@ -76,9 +76,8 @@ taux : 15
 service : 0.0€ 
 total : 56.8€    
     
- /**/   
-    
-    
+ /**/      
+   
 
 @Override
 public String toString() {

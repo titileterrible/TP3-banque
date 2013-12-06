@@ -18,8 +18,6 @@ public class CompteCourant extends CompteBancaire implements Serializable{
 
 private String typeCompte;
 
-
-
 public CompteCourant() {
 }
 
@@ -27,12 +25,9 @@ public CompteCourant(String nom, double solde) {
     super(nom, solde);
     this.typeCompte = "Courant";
 }
-    
-   
 
 @Override
 public String toString() {
-    //return "Compte Courant "+super.toString();
     return "Compte Courant n°" + super.getId() + " ( " + super.getNom() + " ) ";
 }
 

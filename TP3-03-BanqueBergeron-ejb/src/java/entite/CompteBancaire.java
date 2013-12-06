@@ -31,9 +31,10 @@ import javax.persistence.OneToMany;
         name = "Cpt.findAll", query = "SELECT cpt FROM CompteBancaire cpt ORDER BY cpt.id"),
      @NamedQuery(
         name = "Cpt.delete", query = "delete from CompteBancaire cpt where cpt.id = :cptId"),
-     @NamedQuery(name = "Cpt.CountCpts", query = "SELECT COUNT(c) FROM CompteBancaire c"),
      @NamedQuery(
-        name = "Cpt.autoComplete", query = "select c from CompteBancaire c where lower(c.nom) like :search")   
+        name = "Cpt.CountCpts", query = "SELECT COUNT(cpt) FROM CompteBancaire cpt"),
+     @NamedQuery(
+        name = "Cpt.autoComplete", query = "select cpt from CompteBancaire cpt where lower(cpt.nom) like :search")
 })
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -15,10 +15,19 @@
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> 
                     <p:growl id="growl" showDetail="true" sticky="true" />
                     
-                    <p:dataTable  id="cTable" value="#{compteBancaireMBean.modele}" var="item" paginator="true" rows="5" lazy="true"
+                    <!--
+                    rowStyleClass="#{compteBean.colorow(item.solde)}"
+                    -->
+                    
+                    <p:dataTable  style="font-size:12px;"
+                                  id="cTable" 
+                                  value="#{compteBancaireMBean.modele}" 
+                                  var="item" 
+                                  paginator="true" 
+                                  rows="10" 
+                                  lazy="true"
                                   paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
                                   rowsPerPageTemplate="5,10,15"
-                                  rowStyleClass="#{compteBean.colorow(item.solde)}"
                                   emptyMessage="Aucun compte bancaire trouvé." >  
 
                             <p:column>
@@ -28,21 +37,21 @@
                                 <h:outputText value="#{item.id}"/>
                             </p:column>
                         
-                            <p:column>
+                            <p:column sortBy="typeCompte">
                                 <f:facet name="header">
                                     <h:outputText value="Type"/>
                                 </f:facet>
                                 <h:outputText value="#{item.typeCompte}"/>
                             </p:column>
                             
-                        <p:column>
+                                <p:column sortBy="nom">
                                 <f:facet name="header">
                                     <h:outputText value="Nom"/>
                                 </f:facet>
                                 <h:outputText value="#{item.nom}"/>
                             </p:column>
 
-                            <p:column>
+                            <p:column sortBy="solde">
                                 <f:facet name="header">
                                     <h:outputText value="Solde"/>
                                 </f:facet>

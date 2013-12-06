@@ -2,12 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html">
 
-    
-    
-    
-    
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="default.css"/>  
@@ -27,12 +24,30 @@
 
         <div>
             <div id="left" class="rounded shadowed">
+             <!--
                 <ul>
                     <li><h:link outcome="index.xhtml" value="Accueil"/></li>  
                     <li><h:link outcome="comptes-List.xhtml" value="Comptes"/></li>  
                     <li><h:link outcome="virements.xhtml" value="Virements"/></li>
                     <li><h:link outcome="ouverture.xhtml" value="Ouvertures"/></li> 
                 </ul>
+             -->
+             <h:form>
+              <p:menu>  
+                    <p:submenu label="Navigation">  
+                        <p:menuitem outcome="index.xhtml" value="Accueil" icon="ui-icon-home"/> 
+                        <p:menuitem outcome="comptes-List.xhtml" value="Comptes" icon="ui-icon-search"/> 
+                        <p:menuitem outcome="virements.xhtml" value="Virements" icon="ui-icon-arrowrefresh-1-w"/>  
+                        <p:menuitem outcome="ouverture.xhtml" value="Ouvertures" icon="ui-icon-plus" /> 
+                    </p:submenu>   
+                </p:menu>  
+             </h:form>
+            
+            
+            
+            
+            
+            
             </div>
 
             <div id="content" class="left_content rounded shadowed">

@@ -5,10 +5,14 @@
 package managedBeans;
 
 import entite.CompteBancaire;
+import entite.CompteCourant;
+import entite.CompteEpargne;
 import entite.OperationBancaire;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -33,20 +37,17 @@ public class CompteBancaireMBean implements Serializable {
 
     @EJB
     private CompteBancaireManager cptManager;
-    //-----------------Claudia-----------------------------------------------------
-    /* CompteBancaire courant dans la session, utilisé pour afficher ses détails ou
-     * pour faire une mise à jour du compte modifié dans la base */
     private CompteBancaire compteBancaire;
     private int id;
-    //-----------------Claudia-----------------------------------------------------
     private String nom;
     private int solde;
+    //-----------------Claudia-----------------------------------------------------
     private List<CompteBancaire> custList = null;
-    
+    private LazyDataModel<CompteBancaire> modele;
+    //---------- Thierry
     // Comptes Courants et Epargne
     private String typeCompte;
-    
-    
+    private CompteEpargne compteEpargne;
     //opération
     private String typeOperation;
     private int montantOp;
@@ -54,19 +55,25 @@ public class CompteBancaireMBean implements Serializable {
     private CompteBancaire cptDebiteur;
     private CompteBancaire cptCrediteur;
     private int montantTransfert;
-    private LazyDataModel<CompteBancaire> modele;
+    
+    
 
     
     /**
     * Crée une instance de CompteBancaireMBean
     */
     public CompteBancaireMBean() {
+        
         modele = new LazyDataModel<CompteBancaire>() {
+            
             @Override
             public List load(int i, int i1, String string, SortOrder so, Map map) {
                 return cptManager.getComptesByRange(i, i1);
             }
 
+ 
+            
+            
             @Override
             public int getRowCount() {
                 return cptManager.getCountComptes();
@@ -143,7 +150,8 @@ public class CompteBancaireMBean implements Serializable {
     }
 
     /**
-     * Création compte
+     * Création compte de base
+     * @deprecated 
      * @return String redirect vers la page list
      */
     public String createCpt() {
@@ -160,6 +168,50 @@ public class CompteBancaireMBean implements Serializable {
         return "comptes-List?faces-redirect=true";
     }
 
+    
+    
+    
+    /**
+     * Création compte  Courant
+     * @return String redirect vers la page list
+     */
+    public String createCptCourant() {
+        System.out.println("CompteBancaireMBean.createCptCourant()");
+        // Creation du nouveau compte
+        CompteCourant newCpt = new CompteCourant(this.nom, this.solde);
+        cptManager.creerCompte(newCpt);
+        // Rafraichir la liste des comptes pour inclure le nouveau compte
+        this.refreshListOfCptsFromDatabase();
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, newCpt.toString(), "Enregistrement réussi"));
+        // Réinitialisation variables pour affichage...
+        this.nom = "";
+        this.solde = 0;
+        return "comptes-List?faces-redirect=true";
+    }
+    
+    
+        /**
+     * Création compte Epargne
+     * @return String redirect vers la page list
+     */
+    public String createCptEpargne() {
+        System.out.println("CompteBancaireMBean.createCptEpargne()");
+        // Creation du nouveau compte
+        CompteEpargne newCpt = new CompteEpargne(this.nom, this.solde);
+        cptManager.creerCompte(newCpt);
+        // Rafraichir la liste des comptes pour inclure le nouveau compte
+        this.refreshListOfCptsFromDatabase();
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, newCpt.toString(), "Enregistrement réussi"));
+        // Réinitialisation variables pour affichage...
+        this.nom = "";
+        this.solde = 0;
+        return "comptes-List?faces-redirect=true";
+    }
+    
+    
+    
+    
+    
     /**
      * Création opération
      * @return String redirect vers la page details
@@ -210,6 +262,7 @@ public class CompteBancaireMBean implements Serializable {
     }
     // Autocomplete
     private Converter converter = new Converter() {
+        
         @Override
         public Object getAsObject(FacesContext context, UIComponent component, String value) {
             return cptManager.getCompte(Integer.parseInt(value));
@@ -284,6 +337,9 @@ public class CompteBancaireMBean implements Serializable {
         return "comptes-List?faces-redirect=true";
     }
 
+    
+    
+    
     // -------------------- Getters et setters en vrac
     
     
@@ -396,6 +452,11 @@ public class CompteBancaireMBean implements Serializable {
     public void setMontantTransfert(int montantTransfert) {
         this.montantTransfert = montantTransfert;
     }
+    
+    
+ 
+    
+    
     
     // Messages Driven Bean
     
