@@ -24,7 +24,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author thierry
+ * @author thierry  et Claudia
  */
 @NamedQueries({
     @NamedQuery(
