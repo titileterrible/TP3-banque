@@ -7,12 +7,9 @@ package managedBeans;
 import entite.CompteBancaire;
 import entite.CompteCourant;
 import entite.CompteEpargne;
-import entite.OperationBancaire;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -29,7 +26,7 @@ import sessionBeans.CompteBancaireManager;
 
 /**
  *
- * @author thierry
+ * @author thierry et Claudia
  */
 @Named(value = "compteBancaireMBean")
 @SessionScoped
@@ -47,7 +44,6 @@ public class CompteBancaireMBean implements Serializable {
     //---------- Thierry
     // Comptes Courants et Epargne
     private String typeCompte;
-    private CompteEpargne compteEpargne;
     //opération
     private String typeOperation;
     private int montantOp;
@@ -149,15 +145,26 @@ public class CompteBancaireMBean implements Serializable {
         compteBancaire = cptManager.getCompteBancaireById(id);
     }
 
-    /**
-     * Création compte de base
-     * @deprecated 
-     * @return String redirect vers la page list
-     */
-    public String createCpt() {
-        System.out.println("CompteBancaireMBean.createCpt()");
-        // Creation du nouveau compte
-        CompteBancaire newCpt = new CompteBancaire(this.nom, this.solde);
+//    /**
+//     * Création compte de base
+//     * @deprecated 
+//     * @return String redirect vers la page list
+//     */
+//    public String createCpt() {
+//        System.out.println("CompteBancaireMBean.createCpt()");
+//        // Creation du nouveau compte
+//        CompteBancaire newCpt = new CompteBancaire(this.nom, this.solde);
+//        cptManager.creerCompte(newCpt);
+//        // Rafraichir la liste des comptes pour inclure le nouveau compte
+//        this.refreshListOfCptsFromDatabase();
+//        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, newCpt.toString(), "Enregistrement réussi"));
+//        // Réinitialisation variables pour affichage...
+//        this.nom = "";
+//        this.solde = 0;
+//        return "comptes-List?faces-redirect=true";
+//    }
+    
+    private String createCpt(CompteBancaire newCpt) {
         cptManager.creerCompte(newCpt);
         // Rafraichir la liste des comptes pour inclure le nouveau compte
         this.refreshListOfCptsFromDatabase();
@@ -167,7 +174,6 @@ public class CompteBancaireMBean implements Serializable {
         this.solde = 0;
         return "comptes-List?faces-redirect=true";
     }
-
     
     
     
@@ -179,14 +185,7 @@ public class CompteBancaireMBean implements Serializable {
         System.out.println("CompteBancaireMBean.createCptCourant()");
         // Creation du nouveau compte
         CompteCourant newCpt = new CompteCourant(this.nom, this.solde);
-        cptManager.creerCompte(newCpt);
-        // Rafraichir la liste des comptes pour inclure le nouveau compte
-        this.refreshListOfCptsFromDatabase();
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, newCpt.toString(), "Enregistrement réussi"));
-        // Réinitialisation variables pour affichage...
-        this.nom = "";
-        this.solde = 0;
-        return "comptes-List?faces-redirect=true";
+        return createCpt(newCpt);
     }
     
     
@@ -198,20 +197,10 @@ public class CompteBancaireMBean implements Serializable {
         System.out.println("CompteBancaireMBean.createCptEpargne()");
         // Creation du nouveau compte
         CompteEpargne newCpt = new CompteEpargne(this.nom, this.solde);
-        cptManager.creerCompte(newCpt);
-        // Rafraichir la liste des comptes pour inclure le nouveau compte
-        this.refreshListOfCptsFromDatabase();
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, newCpt.toString(), "Enregistrement réussi"));
-        // Réinitialisation variables pour affichage...
-        this.nom = "";
-        this.solde = 0;
-        return "comptes-List?faces-redirect=true";
+        return createCpt(newCpt);
     }
     
-    
-    
-    
-    
+
     /**
      * Création opération
      * @return String redirect vers la page details
@@ -459,6 +448,7 @@ public class CompteBancaireMBean implements Serializable {
     
     
     // Messages Driven Bean
+
     
     
 }

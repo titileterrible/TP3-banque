@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 
 /**
  *
- * @author thierry
+ * @author thierry  et Claudia
  */
 @Entity
 @DiscriminatorValue("CompteCourant")

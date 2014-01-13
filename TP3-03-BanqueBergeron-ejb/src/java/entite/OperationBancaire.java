@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 
 /**
  * 
- * @author thierry
+ * @author thierry et Claudia
  */
 @Entity
 public class OperationBancaire implements Serializable {

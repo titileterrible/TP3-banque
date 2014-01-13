@@ -9,24 +9,15 @@ import entite.CompteCourant;
 import entite.CompteEpargne;
 import entite.OperationBancaire;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author GLYSE581B
+ * @author Thierry et Claudia
  */
 @Stateless
 @LocalBean
@@ -79,11 +70,9 @@ public class CompteBancaireManager {
     }
 
     public CompteBancaire creerCompte(CompteBancaire cpt) {
-        em.persist(cpt);
-        // Enregistrement de l'opération de création
         OperationBancaire op = new OperationBancaire("Création du compte " + cpt.getNom(), cpt.getSolde());
         cpt.getOperations().add(op);
-        
+        em.persist(cpt);
         return cpt;
     }
 
@@ -237,15 +226,5 @@ return ((Long) query.getSingleResult()).intValue();
         creerCompte(new CompteEpargne("Tresorerie Unice3 ", 100000));
         /**/
     }
-
-
-
-
-
-
-
-
-
-
 
 }
