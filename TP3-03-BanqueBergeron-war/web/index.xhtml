@@ -10,8 +10,84 @@
             <ui:define name="titrePage">Accueil</ui:define>
 
             <ui:define name="content">
-                <p>Dissertation sur le bonheur que procure la simplicité de programmer avec les facelets,<br/>
-                 et blablabla...</p>
+                
+                <article> 
+                
+                    <header>
+                        <h2>Applicatif bancaire</h2>
+                        <p> Cette maquette d'application bancaire a été réalisée en Binôme par Claudia Appourchaux et Thierry Bergeron. Elle permet:
+                        </p>    
+                        <ul>
+                            <li>La création/modification/suppression de comptes courants</li>
+                            <li>La création/modification/suppression de comptes epargne</li>
+                            <li>Les opérations de dépot/retrait sur les comptes</li>
+                            <li>Les opérations de transfert entre les comptes</li>
+                        </ul>
+                    </header>
+                
+                    <section>
+                        <h3> Points forts de l'application </h3>
+                        <ul>
+                            <li>Lazy loading fonctionnel pour afficher la liste des comptes</li>
+                            <li>Autocomplétion pour la saisie des comptes de transferts</li>
+                            <li>Sous-classes de comptes de type courant et épargne</li>
+                            <li>Génération automatique d'une opération bancaire à chaque création de compte</li>
+                            <li>Contrôles utilisateurs coté client (nom) pour la saisie des nouveaux comptes</li>
+                            <li>Contrôles utilisateurs coté client (noms) pour la saisie des opérations de transferts</li>
+                            <li>Messages de confirmations pour création/suppression/modification des comptes</li>
+                            <li>Messages de confirmations pour les opérations de transfert</li>
+                            <li>Utilisation des templates et des faces-redirect=true</li>
+                            <li>Utilisation des structures HTML5 dans les templates</li>
+                            <li>Utilisation des CSS3: bords arrondis, Ombrages, transitions et fonds dégradés</li>
+                        </ul>   
+                        <p></p>
+
+                        <h3> Points faibles de l'application </h3>
+                        <ul>
+                            <li>Conflit Lazy loading/tri des colonnes</li>
+                            <li>Conflit Lazy loading/champ de recherche</li>
+                            <li>L'application ne différencie pas le compte de son propriétaire</li>
+                            <li>Redirection automatique vers fiche compte après création non implémentée</li>
+                            <li>EJB timer générateur d'intérêts sur comptes epargne non implémentés </li>
+                            <li>EJB message (message Driven Beans) non implémentés </li>
+                        </ul>
+
+                        <h3> Composants PrimeFaces utilisés et non étudiés en TPs </h3>
+                        <ul>
+                            <li>Composant 'focus'( messages d'erreurs ds formulaires)</li>
+                            <li>Composant 'messages'(messages de service)</li>
+                            <li>Composant 'growl'(messages de service en pop-up)</li>
+                            <li>Composant 'tooltip' (instructions de saisie ds les formulaires)</li>
+                            <li>Composant 'clock' (heure et date courante, format français)</li>
+                            <li>Composant 'confirmDialog'(confirmation de suppression)</li>
+                        </ul>
+                        
+                </section>
+                
+                <hr/>
+                
+                <section>
+                    <p>Dissertation sur le bonheur que procure la simplicité de programmer avec les facelets et blablabla...</p>
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <p>
+                        Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst.
+                    </p>
+                    <p>
+                        Fusce convallis, mauris imperdiet gravida bibendum, nisl turpis suscipit mauris, sed placerat ipsum urna sed risus. In convallis tellus a mauris. Curabitur non elit ut libero tristique sodales. Mauris a lacus. Donec mattis semper leo. In hac habitasse platea dictumst. Vivamus facilisis diam at odio. Mauris dictum, nisi eget consequat elementum, lacus ligula molestie metus, non feugiat orci magna ac sem. Donec turpis. Donec vitae metus. Morbi tristique neque eu mauris. Quisque gravida ipsum non sapien. Proin turpis lacus, scelerisque vitae, elementum at, lobortis ac, quam. Aliquam dictum eleifend risus. In hac habitasse platea dictumst. Etiam sit amet diam. Suspendisse odio. Suspendisse nunc. In semper bibendum libero.
+                    </p>
+                    <p>
+                        Proin nonummy, lacus eget pulvinar lacinia, pede felis dignissim leo, vitae tristique magna lacus sit amet eros. Nullam ornare. Praesent odio ligula, dapibus sed, tincidunt eget, dictum ac, nibh. Nam quis lacus. Nunc eleifend molestie velit. Morbi lobortis quam eu velit. Donec euismod vestibulum massa. Donec non lectus. Aliquam commodo lacus sit amet nulla. Cras dignissim elit et augue. Nullam non diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Aenean vestibulum. Sed lobortis elit quis lectus. Nunc sed lacus at augue bibendum dapibus.
+                    </p>
+                </section>
+                
+               </article>  
+                
+                
+                
+
             </ui:define>
 
         </ui:composition>

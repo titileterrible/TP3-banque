@@ -18,41 +18,54 @@
 
     <h:body>
 
-        <div id="top" class="top rounded shadowed">
-             <h1>Banque Appourchaux-Bergeron - <ui:insert name="titrePage"/></h1>
-        </div>
+        
 
-        <div>
-            <div id="left" class="rounded shadowed">
-             <!--
-                <ul>
-                    <li><h:link outcome="index.xhtml" value="Accueil"/></li>  
-                    <li><h:link outcome="comptes-List.xhtml" value="Comptes"/></li>  
-                    <li><h:link outcome="virements.xhtml" value="Virements"/></li>
-                    <li><h:link outcome="ouverture.xhtml" value="Ouvertures"/></li> 
-                </ul>
-             -->
-             <h:form>
-              <p:menu>  
-                    <p:submenu label="Navigation">  
-                        <p:menuitem outcome="index.xhtml" value="Accueil" icon="ui-icon-home"/> 
-                        <p:menuitem outcome="comptes-List.xhtml" value="Comptes" icon="ui-icon-search"/> 
-                        <p:menuitem outcome="virements.xhtml" value="Virements" icon="ui-icon-arrowrefresh-1-w"/>  
-                        <p:menuitem outcome="ouverture.xhtml" value="Ouvertures" icon="ui-icon-plus" /> 
-                    </p:submenu>   
-                </p:menu>  
-             </h:form>
-            
-            
-            
-            
-            
-            
+        
+        
+        <header>
+            <div id="top" class="top rounded shadowed fadeBackground">
+
+                <div class="sitelogo">
+                    <img src="resources/images/bank_256.png" width="175" height="175" alt="Banque Appourchaux Bergeron"/>
+                </div>
+                <div class ="sitetitle">
+                <h1>Banque Appourchaux Bergeron</h1>
+                <h2><ui:insert name="titrePage"/></h2>
+                </div>
+                <div class ="clear"></div>
             </div>
+        </header>
+        
+        <div>
+            <nav>
+                <div id="left" class="rounded shadowed fadeBackground">
 
-            <div id="content" class="left_content rounded shadowed">
+                    <ul>
+                        <li><h:link outcome="index.xhtml" value="Accueil"/></li>  
+                        <li><h:link outcome="comptes-List.xhtml" value="Comptes"/></li>  
+                        <li><h:link outcome="virements.xhtml" value="Virements"/></li>
+                        <li><h:link outcome="ouverture.xhtml" value="Ouvertures"/></li> 
+                    </ul>
+
+                    <div class="clock">
+                        <p:clock pattern="dd/MM/yyyy - HH:mm:ss "/>
+                    </div>
+
+
+                </div>
+            </nav>
+
+            <div id="content" class="left_content rounded shadowed fadeBackground">
                 <ui:insert name="content">Content</ui:insert>
             </div>
+        
+            <footer>
+                <div id="bottom" class="rounded shadowed fadeBackground center">
+                    <p>Copyright 2013-2014 - Claudia Appourchaux et Thierry Bergeron</p>
+                </div>
+            </footer>
+        
+        
         </div>
     </h:body>
 

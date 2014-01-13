@@ -330,7 +330,7 @@ public class CompteBancaireMBean implements Serializable {
         System.out.println("compteBancaireMBean.deleteCompte()");
         // Dialogue
         String deleteMessage = compteBancaire.toString();
-        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_WARN, "Compte supprimé ",deleteMessage));
+        addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_WARN, "Compte supprimé",deleteMessage));
         cptManager.deleteCompte(compteBancaire);
         // Rafraichir la liste des comptes
         this.refreshListOfCptsFromDatabase();

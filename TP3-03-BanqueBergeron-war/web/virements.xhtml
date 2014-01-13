@@ -12,23 +12,30 @@
     <ui:define name="content">
         <f:view>
             <h:form>
-                <p:panel>  
+                <p:panel id="panel">  
                     <h1 style="padding-bottom:5px; margin-bottom:10px;">
                         <h:outputText value="Virement"/>
                     </h1>
-                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-                    <h:panelGrid columns="2" cellpadding="5" style="font-size:14px;">  
-                        <h:outputLabel value="Compte à débiteur : "/>  
-                        <p:autoComplete value="#{compteBancaireMBean.cptDebiteur}" completeMethod="#{compteBancaireMBean.autoCompleteCpt}" var="cpt" itemLabel="#{cpt.nom}" itemValue="#{cpt}" forceSelection="true" converter="#{compteBancaireMBean.converter}" widgetVar="deCompte"/>   
+                    <p:focus context="panel"/>  
+                    <p:messages closable="true" />
+                    <h:panelGrid columns="4" cellpadding="5" style="font-size:14px;">  
                         
-                        <h:outputLabel value="Compte à créditer : "/>  
-                        <p:autoComplete value="#{compteBancaireMBean.cptCrediteur}" completeMethod="#{compteBancaireMBean.autoCompleteCpt}" var="cpt" itemLabel="#{cpt.nom}" itemValue="#{cpt}" forceSelection="true" converter="#{compteBancaireMBean.converter}" widgetVar="versCompte"/>   
+                        <h:outputLabel value="Compte à débiter : " for="Débiteur"/>  
+                        <p:autoComplete id="Débiteur" label="Débiteur" required="true" value="#{compteBancaireMBean.cptDebiteur}" completeMethod="#{compteBancaireMBean.autoCompleteCpt}" var="cpt" itemLabel="#{cpt.nom}" itemValue="#{cpt}" forceSelection="true" converter="#{compteBancaireMBean.converter}" widgetVar="deCompte"/>   
+                        <p:message for="Débiteur" />
+                        <p:tooltip for="Débiteur" value="Entrez une lettre et choississez le débiteur parmi la liste" showEffect="fade" hideEffect="explode" />  
+                        
+                        <h:outputLabel  value="Compte à créditer : " for="Créditeur"/>  
+                        <p:autoComplete id="Créditeur" label="Créditeur" required="true" value="#{compteBancaireMBean.cptCrediteur}" completeMethod="#{compteBancaireMBean.autoCompleteCpt}" var="cpt" itemLabel="#{cpt.nom}" itemValue="#{cpt}" forceSelection="true" converter="#{compteBancaireMBean.converter}" widgetVar="versCompte"/>   
+                        <p:message for="Créditeur" />
+                        <p:tooltip for="Créditeur" value="Entrez une lettre et choississez le créditeur parmi la liste" showEffect="slide" hideEffect="explode" />
                         
                         <h:outputLabel value="Montant du transfert:" for="montantTransfert" />
                         <p:inputText id="montantTransfert" value="#{compteBancaireMBean.montantTransfert}" title="montantTransfert" />
-                        
+                        <p:tooltip for="montantTransfert" value="Indiquez un montant" showEffect="clip" hideEffect="explode" />
                         <p></p>
-                        <p:commandButton icon="ui-icon-pencil" id="transfert" value="Transferer" action="#{compteBancaireMBean.transfert()}"/>
+                        
+                        <p:commandButton icon="ui-icon-pencil" id="transfert" value="Transferer" update="panel" action="#{compteBancaireMBean.transfert()}"/>
                     </h:panelGrid>
 
                 </p:panel> 
@@ -36,7 +43,8 @@
                 
                 
                 <div style="margin-top: 10px;">
-                    <p:commandButton icon="ui-icon-arrowthick-1-w" id="back" value="Retour" action="#{compteBancaireMBean.list}"/>  
+                    <h:link outcome="comptes-List.xhtml" value="&nbsp; &lt; Afficher la liste des comptes"/>
+                
                 </div>
                 
                 
@@ -47,74 +55,3 @@
     </ui:define>
 
 </ui:composition>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="./template_default.xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:="http://www.w3.org/1999/xhtml">
-
-    <ui:define name="titrePage">Virements</ui:define>
-
-    <ui:define name="content">
-        <f:view>
-
-            <h:form class="action">                  
-
-                <p:panel>  
-
-                    <h1 style="padding-bottom:5px; margin-bottom:10px;">
-                        <h:outputText value="Transfert de compte à compte"/>
-                    </h1>  
-
-                    <h:panelGrid columns="2" cellpadding="5" style="font-size:12px">  
-
-                        <p:outputLabel value="Compte débiteur : " for="compte1" />
-                        <p:selectOneMenu id="compte1"  value="#{compteBancaireMBean.cptDebiteur}">               
-                            <f:selectItems var="item" itemLabel="#{item.id} - #{item.nom}" value="#{compteBancaireMBean.compteBancaires}"/>
-                        </p:selectOneMenu>
-
-                        <p:outputLabel value="Compte créditeur : " for="compte2" />
-                        <p:selectOneMenu id="compte2" value="#{compteBancaireMBean.cptCrediteur}"> 
-                            <f:selectItems var="item" itemLabel="#{item.id} - #{item.nom}" value="#{compteBancaireMBean.compteBancaires}" />
-                        </p:selectOneMenu>
-
-                        <p:outputLabel value="Montant :" for="montant" />
-                        <p:inputText id="montant" required="true" value="#{compteBancaireMBean.montantTransfert}" title="Montant" />   
-                        
-                        <p></p>
-                        <p:commandButton  id="transfert" value="Transferer" action="#{compteBancaireMBean.transfert}"/>
-
-                    </h:panelGrid>
-
-                </p:panel> 
-
-                <div style="margin-top: 10px;">
-                    <p:commandButton icon="ui-icon-arrowthick-1-w" id="back10" value="Retour liste des comptes" action="#{compteBancaireMBean.list}"/>  
-                </div>
-
-            </h:form>
-
-
-        </f:view>
-    </ui:define>
-</ui:composition>-->

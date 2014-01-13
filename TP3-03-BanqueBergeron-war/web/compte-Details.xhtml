@@ -17,7 +17,7 @@
                 
                 <p:panel>
                     <h1 style="padding-bottom:5px; margin-bottom:10px;">
-                        <h:outputText value="Informations du #{compteBancaireMBean.details.toString()}"/>
+                        <h:outputText value="Informations du #{compteBancaireMBean.details.toString()} - Solde actuel: #{compteBancaireMBean.details.solde} €"/>
                     </h1>
                     <h:outputLabel value="Nom:" for="nom" />
                     &nbsp;
@@ -37,7 +37,7 @@
                 
                 <p:panel>
                     <h1 style="padding-bottom:5px; margin-bottom:10px;">
-                        <h:outputText value="Liste des opérations du #{compteBancaireMBean.details.toString()}"/>    
+                        <h:outputText value="Liste des opérations du #{compteBancaireMBean.details.toString()}- Solde actuel: #{compteBancaireMBean.details.solde} €"/>   
                     </h1>
   
                         <p:dataTable value="#{compteBancaireMBean.details.operations}" id="listOperations" var="item">

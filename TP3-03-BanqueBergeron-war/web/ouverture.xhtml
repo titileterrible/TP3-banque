@@ -7,30 +7,40 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:="http://www.w3.org/1999/xhtml">
 
-    <ui:define name="titrePage">Ouveture de Compte</ui:define>
+    <ui:define name="titrePage">Ouverture de Compte</ui:define>
     
     <ui:define name="content">
         <f:view>
             <h:form>
                 
-                <p:panel>  
+                <p:panel id="panel">  
                     <h1 style="padding-bottom:5px; margin-bottom:10px;">
                         <h:outputText value="Création de compte"/>
-                    </h1>  
-                    <h:panelGrid columns="2" cellpadding="5" style="font-size:14px;">  
-                        <h:outputLabel value="Nom:" for="nom" />
-                        <p:inputText value="#{compteBancaireMBean.nom}" id="nom" title="Nom" />
+                    </h1> 
+                    <p:focus context="panel"/>  
+                    <p:messages />
+                    
+                    <h:panelGrid columns="4" cellpadding="5" style="font-size:14px;">  
+                        <h:outputLabel value="Nom:*" for="nom" />
+                        <p:inputText value="#{compteBancaireMBean.nom}" id="nom" label="Nom" required="true">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <p:message for="nom" />
+                        <p:tooltip for="nom" value="2 lettres minimum" showEffect="clip" hideEffect="explode" />
                         <h:outputLabel value="Solde initial:" for="solde" />
                         <p:inputText value="#{compteBancaireMBean.solde}" id="solde" title="Solde" />
-                        <p:commandButton  id="createcptcourant" value="Créer Compte Courant" action="#{compteBancaireMBean.createCptCourant()}"/>
-                        <p:commandButton  id="createcptepargne" value="Créer Compte Epargne" action="#{compteBancaireMBean.createCptEpargne()}"/>
+                        <p:message for="solde" />
+                        <p></p>
+                        <p:commandButton  id="createcptcourant" value="Créer Compte Courant" update="panel" action="#{compteBancaireMBean.createCptCourant()}"/>
+                        <p:commandButton  id="createcptepargne" value="Créer Compte Epargne" update="panel" action="#{compteBancaireMBean.createCptEpargne()}"/>
                     </h:panelGrid>
                 </p:panel> 
                 
                 
                 
                 <div style="margin-top: 10px;">
-                    <p:commandButton icon="ui-icon-arrowthick-1-w" id="back10" value="Retour" action="#{compteBancaireMBean.list}"/>  
+                    <h:link outcome="comptes-List.xhtml" value="&nbsp; &lt; Afficher la liste des comptes"/>
+                
                 </div>
             </h:form>
         </f:view>
